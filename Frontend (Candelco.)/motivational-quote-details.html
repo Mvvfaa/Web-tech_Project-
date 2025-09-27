@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Glass Jar Candle Categories</title>
+  <title>Motivational Quote Frame - Details</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -49,34 +49,55 @@
     </nav>
   </header>
 
-  <!-- Main Content -->
-  <section id="products" class="py-20 px-8 max-w-7xl mx-auto">
-    <h2 class="text-center text-4xl font-bold mb-12 text-brand-brown">
-      Glass Jar Candle Categories
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-      
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500">
-        <img src="images/glass1.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Classic Glass Jar Candles</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 1,500 - 2,000</p>
-          <p class="text-brand-light-gray mb-4">Elegant glass jar candles with timeless designs for any space.</p>
-          <button class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-      </div>
-      
-
-
-
-
-
+  <div class="max-w-5xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-10 items-start">
+    <!-- Product Image -->
+    <div>
+      <img src="images/motiF.jpg" alt="Motivational Quote Frame" class="rounded-2xl shadow-lg w-full object-cover">
     </div>
-  </section>
+    <!-- Product Details -->
+    <div>
+      <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Motivational Quote Frame</h1>
+      <div class="text-lg mb-2 font-semibold">Rs. 1,000.00</div>
+      <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
+      <div class="mb-4">
+        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full mr-2">5 x 7 in</span>
+        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full">8 x 10 in</span>
+      </div>
+      <div class="flex items-center mb-4">
+        <button class="px-3 py-1 border border-brand-gray rounded-l">-</button>
+        <input type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly>
+        <button class="px-3 py-1 border border-brand-gray rounded-r">+</button>
+      </div>
+      <button class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
+      <div class="mb-4">
+        <input type="checkbox" id="giftwrap" class="mr-2">
+        <label for="giftwrap">Add Gift Wrap for Rs. 150.00 (per item)</label>
+      </div>
+      <p class="mb-4">
+        Our Motivational Quote Frame is the perfect addition to your home or office. Featuring high-quality print and a sturdy frame, it inspires positivity and motivation every day.
+      </p>
+      <div class="mb-2"><span class="font-bold">Frame Material:</span> Premium MDF with glass front</div>
+      <div class="mb-2"><span class="font-bold">Print Quality:</span> High-resolution, fade-resistant</div>
+      <div class="mb-2"><span class="font-bold">Display:</span> Tabletop & Wall Mount (hook included)</div>
+      <details class="mb-2">
+        <summary class="cursor-pointer font-semibold">Care Instructions</summary>
+        <div class="pl-4 pt-2 text-sm">Wipe with a soft, dry cloth. Avoid direct sunlight for long-lasting colors.</div>
+      </details>
+      <details class="mb-2">
+        <summary class="cursor-pointer font-semibold">Customization</summary>
+        <div class="pl-4 pt-2 text-sm">Want a custom quote or color? Contact us for personalized frames!</div>
+      </details>
+      <details class="mb-2">
+        <summary class="cursor-pointer font-semibold">Shipping & Return Policy</summary>
+        <div class="pl-4 pt-2 text-sm">Shipping in 8-10 working days. Returns accepted within 7 days if unopened and undamaged.</div>
+      </details>
+      <details>
+        <summary class="cursor-pointer font-semibold">Why Choose Our Frames?</summary>
+        <div class="pl-4 pt-2 text-sm">Handcrafted with care, our frames make thoughtful gifts for any occasion.</div>
+      </details>
+    </div>
+  </div>
 
-  <!-- Footer -->
   <footer>
     <div class="bg-brand-gray text-white py-10 shadow-lg">
       <div class="container mx-auto text-center">
@@ -96,5 +117,6 @@
       </div>
     </div>
   </footer>
+
 </body>
 </html>
