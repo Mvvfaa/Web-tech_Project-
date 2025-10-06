@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - The Candle Co</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-cream': '#f7f5f3',
+            'brand-light': '#fefcfa',
+            'brand-brown': '#8b7355',
+            'brand-sage': '#6b8e5a',
+            'brand-sage-dark': '#5a7a4a',
+            'brand-pink': '#d4a5a5',
+            'brand-peach': '#f4a5a5',
+            'brand-gray': '#2c2c2c',
+            'brand-light-gray': '#5a5a5a',
+            'brand-section': '#f2f0ed'
+          },
+          fontFamily: {
+            'serif': ['Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .scrolling-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-text 20s linear infinite;
+    }
+    @keyframes scroll-text {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .group:hover ul,
+    .group:focus-within ul {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+  </style>
+</head>
+<body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
+
+  <div class="bg-brand-peach text-white overflow-hidden whitespace-nowrap py-2 text-sm font-medium">
+    <p class="scrolling-text">
+      ● Product Delivery in 8-10 Working Days
+    </p>
+  </div>
+
+  <header class="bg-brand-light shadow-lg sticky top-0 z-50" style="box-shadow: 0 2px 10px rgba(139, 115, 85, 0.1);">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="images\logo.jpg" 
+        alt="The Candle Co Logo" class="w-10 h-10 rounded-full object-cover">
+        <span class="text-2xl md:text-3xl font-bold text-brand-brown">The Candle Co</span>
+      </a>
+      <ul class="hidden md:flex space-x-8 items-center relative">
+        <li><a href="index.html#home" class="hover:text-brand-sage transition">Home</a></li>
+        <li><a href="index.html#story" class="hover:text-brand-sage transition">Our Story</a></li>
+        <li><a href="index.html#products" class="hover:text-brand-sage transition">Products</a></li>
+        <li class="relative group">
+          <a href="#categories" class="hover:text-brand-sage transition flex items-center">
+            Categories
+            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </a>
+          <ul class="absolute left-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-200 z-50">
+            <li>
+              <a href="all-products.html?category=tin" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-t-lg">Silver Tin Candles</a>
+            </li>
+            <li>
+              <a href="all-products.html?category=glass" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Glass Jar Candles</a>
+            </li>
+            <li>
+              <a href="all-products.html?category=frame" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a>
+            </li>
+            <li>
+              <a href="all-products.html" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All Products</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="index.html#contact" class="hover:text-brand-sage transition">Contact</a></li>
+      </ul>
+      <div class="hidden md:flex items-center space-x-6">
+
+        <a href="login.html" aria-label="Profile" class="text-brand-sage hover:text-brand-brown transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+          </svg>
+        </a>
+        <a href="#cart" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
+          </svg>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="py-20 px-6 min-h-screen flex items-center justify-center bg-brand-section">
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
+      <h2 class="text-3xl font-bold text-center mb-8 text-brand-brown">Create Account</h2>
+      
+      <form id="signupForm" class="space-y-6">
+        <div>
+          <label for="fullName" class="block text-sm font-medium text-brand-gray mb-2">Full Name</label>
+          <input 
+            type="text" 
+            id="fullName" 
+            name="fullName" 
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-transparent transition"
+            placeholder="John Doe"
+          >
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-brand-gray mb-2">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-transparent transition"
+            placeholder="you@example.com"
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-brand-gray mb-2">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            required
+            minlength="8"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-transparent transition"
+            placeholder="At least 8 characters"
+          >
+        </div>
+
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-brand-gray mb-2">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword" 
+            required
+            minlength="8"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-transparent transition"
+            placeholder="Re-enter your password"
+          >
+        </div>
+
+        <div class="flex items-start">
+          <input 
+            type="checkbox" 
+            id="terms" 
+            name="terms" 
+            required
+            class="w-4 h-4 mt-1 text-brand-sage border-gray-300 rounded focus:ring-brand-sage"
+          >
+          <label for="terms" class="ml-2 text-sm text-brand-light-gray">
+            I agree to the <a href="#" class="text-brand-sage hover:text-brand-sage-dark transition">Terms and Conditions</a> and <a href="#" class="text-brand-sage hover:text-brand-sage-dark transition">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button 
+          type="submit"
+          class="w-full py-3 bg-brand-sage text-white font-bold rounded-lg hover:bg-brand-sage-dark transition duration-300 transform hover:scale-105"
+        >
+          Sign Up
+        </button>
+      </form>
+
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-4 bg-white text-brand-light-gray">Or</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-brand-light-gray">
+          Already have an account? 
+          <a href="login.html" class="text-brand-sage font-semibold hover:text-brand-sage-dark transition">Login</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mt-0">
+    <div class="bg-brand-gray text-white py-10 shadow-lg">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-6 text-brand-brown">Get in Touch</h2>
+        <p class="mb-2">📞 +92 308 4449344</p>
+        <p class="mb-4">📍 Sector C, Askari 11, Lahore, Pakistan</p>
+
+        <a href="https://www.instagram.com/thecandleco.pk_/" target="_blank" class="inline-block mt-2">
+          <svg xmlns="http://www.w3.org/2000/svg" 
+               fill="currentColor" 
+               viewBox="0 0 24 24" 
+               class="w-8 h-8 hover:text-pink-400 transition duration-300">
+            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-brand-brown text-white py-6">
+      <div class="container mx-auto flex items-center justify-center">
+        <p class="text-sm">&copy; 2025 CandleCo. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+      
+      // Add your signup logic here
+      alert('Sign up functionality will be implemented soon!');
+    });
+  </script>
+</body>
+</html>
