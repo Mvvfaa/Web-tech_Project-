@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Tin Candle - Details</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart — The Candle Co</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -21,27 +21,24 @@
             'brand-light-gray': '#5a5a5a',
             'brand-section': '#f2f0ed'
           },
-          fontFamily: {
-            'serif': ['Georgia', 'serif']
-          }
+          fontFamily: { 'serif': ['Georgia','serif'] }
         }
       }
     }
   </script>
 
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
   <style>
-    .group:hover ul,
-    .group:focus-within ul {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
+    .scrolling-text{ display:inline-block; padding-left:100%; animation:scroll-text 20s linear infinite; }
+    @keyframes scroll-text{0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}
+    .group:hover ul, .group:focus-within ul { opacity:1 !important; pointer-events:auto !important; }
   </style>
-
 </head>
 <body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
+
+  <!-- top delivery bar -->
+  <div class="bg-brand-peach text-white overflow-hidden whitespace-nowrap py-2 text-sm font-medium">
+    <p class="scrolling-text">● Product Delivery in 8-10 Working Days</p>
+  </div>
 
   <!-- Header -->
   <header class="bg-brand-light shadow-lg sticky top-0 z-50" style="box-shadow: 0 2px 10px rgba(139, 115, 85, 0.1);">
@@ -131,59 +128,30 @@
     </nav>
   </header>
 
-  <div class="max-w-5xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-10 items-start">
-    <!-- Product Image -->
-    <div>
-      <img src="images/tin.jpg" alt="Silver Tin Candle" class="rounded-2xl shadow-lg w-full object-cover">
-    </div>
-    <!-- Product Details -->
-    <div>
-      <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Silver Tin Candle</h1>
-      <div class="text-lg mb-2 font-semibold">Rs. 1,000.00</div>
-      <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
-      <div class="mb-4">
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full mr-2">3.5 fl oz.</span>
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full">8.5 fl oz.</span>
-      </div>
-      <div class="flex items-center mb-4">
-        <button class="px-3 py-1 border border-brand-gray rounded-l">-</button>
-        <input type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly>
-        <button class="px-3 py-1 border border-brand-gray rounded-r">+</button>
-      </div>
-      <button class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
-      <div class="mb-4">
-        <input type="checkbox" id="giftbox" class="mr-2">
-        <label for="giftbox">Add Gift Box for Rs. 300.00 (per item)</label>
-      </div>
-      <p class="mb-4">
-        Our Silver Tin Candle is crafted to inspire and uplift. Enjoy premium wax, calming fragrances, and beautiful designs in a sleek, portable tin.
-      </p>
-      <div class="mb-2"><span class="font-bold">Top Notes:</span> Citrus, Fresh</div>
-      <div class="mb-2"><span class="font-bold">Heart Notes:</span> Floral, Jasmine</div>
-      <div class="mb-2"><span class="font-bold">Base Notes:</span> Musk, Amber</div>
-      <details class="mb-2">
-        <summary class="cursor-pointer font-semibold">Candle Burn Time</summary>
-        <div class="pl-4 pt-2 text-sm">Up to 20 hours (3.5 oz) / Up to 45 hours (8.5 oz)</div>
-      </details>
-      <details class="mb-2">
-        <summary class="cursor-pointer font-semibold">How To Use</summary>
-        <div class="pl-4 pt-2 text-sm">Trim wick before each use. Burn on a heat-safe surface. Do not leave unattended.</div>
-      </details>
-      <details class="mb-2">
-        <summary class="cursor-pointer font-semibold">Shipping & Return Policy</summary>
-        <div class="pl-4 pt-2 text-sm">Shipping in 8-10 working days. Returns accepted within 7 days if unopened.</div>
-      </details>
-      <details>
-        <summary class="cursor-pointer font-semibold">Safety Guidelines</summary>
-        <div class="pl-4 pt-2 text-sm">Keep away from children and pets. Do not burn for more than 4 hours at a time.</div>
-      </details>
-    </div>
-  </div>
+  <!-- Empty cart -->
+  <main class="min-h-screen flex items-center justify-center">
+    <div class="text-center max-w-lg w-full px-6">
+      <h1 class="font-serif text-5xl md:text-6xl font-normal mb-10 text-brand-gray">Your cart is empty</h1>
 
-  <footer>
+      <div class="mb-12">
+        <a href="index.html" class="inline-block bg-brand-gray text-white px-8 py-3 rounded-xl shadow-md hover:scale-105 transition transform" style="background:#2c2c2c;">
+          Continue shopping
+        </a>
+      </div>
+
+      <div class="text-lg">
+        <p class="mb-2">Have an account?</p>
+        <a href="login.html" class="underline text-brand-brown hover:text-brand-sage transition">Log in</a>
+        <span class="text-brand-light-gray ml-2">to check out faster.</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-0">
     <div class="bg-brand-gray text-white py-10 shadow-lg">
       <div class="container mx-auto text-center">
-        <h2 id="contact" class="text-4xl font-bold mb-6 text-brand-brown">Get in Touch</h2>
+        <h2 class="text-4xl font-bold mb-6 text-brand-brown">Get in Touch</h2>
         <p class="mb-2">📞 +92 308 4449344</p>
         <p class="mb-4">📍 Sector C, Askari 11, Lahore, Pakistan</p>
         <a href="https://www.instagram.com/thecandleco.pk_/" target="_blank" class="inline-block mt-2">
@@ -193,6 +161,7 @@
         </a>
       </div>
     </div>
+
     <div class="bg-brand-brown text-white py-6">
       <div class="container mx-auto flex items-center justify-center">
         <p class="text-sm">&copy; 2025 CandleCo. All rights reserved.</p>
