@@ -38,6 +38,14 @@
       opacity: 1 !important;
       pointer-events: auto !important;
     }
+
+    input[type="radio"].scent:checked + label {
+      background-color: #f4a5a5; /* brand-peach */
+      color: #8b7355;           /* brand-brown */
+    }
+    input[type="radio"].scent:focus + label {
+      box-shadow: 0 0 0 3px rgba(139,115,85,0.15);
+    }
   </style>
 
 </head>
@@ -75,6 +83,9 @@
               <a href="all-products.html?category=frame" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a>
             </li>
             <li>
+              <a href="all-products.html?category=amber" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Amber Jar Candles</a>
+            </li>
+            <li>
               <a href="all-products.html" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All Products</a>
             </li>
           </ul>
@@ -102,6 +113,9 @@
             </li>
             <li>
               <a href="all-products.html?category=frame" class="block px-4 py-2 text-xs text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a>
+            </li>
+            <li>
+              <a href="all-products.html?category=amber" class="block px-4 py-2 text-brand-gray hover:bg-brand-sage hover:text-white transition">Amber Jar</a>
             </li>
             <li>
               <a href="all-products.html" class="block px-4 py-2 text-xs text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All</a>
@@ -141,26 +155,37 @@
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Quote Frame</h1>
       <div class="text-lg mb-2 font-semibold">Rs. 1,000.00</div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
+      
       <div class="mb-4">
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full mr-2">5 x 7 in</span>
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full">8 x 10 in</span>
+        <p class="mb-2 font-semibold">Choose Size:</p>
+        <div class="flex flex-wrap gap-2">
+          <input id="scent-lavender" name="scent" type="radio" value="lavender" class="hidden scent" checked>
+          <label for="scent-lavender"
+                 class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
+            TBD
+          </label>
+          <input id="scent-amber" name="scent" type="radio" value="amber" class="hidden scent">
+          <label for="scent-amber"
+                 class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
+            TBD
+          </label>
+        </div>
       </div>
+      
       <div class="flex items-center mb-4">
         <button class="px-3 py-1 border border-brand-gray rounded-l">-</button>
         <input type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly>
         <button class="px-3 py-1 border border-brand-gray rounded-r">+</button>
       </div>
       <button class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
-      <div class="mb-4">
-        <input type="checkbox" id="giftwrap" class="mr-2">
-        <label for="giftwrap">Add Gift Wrap for Rs. 150.00 (per item)</label>
-      </div>
+      <h1 class="font-bold">Description:</h1>
       <p class="mb-4">
         Our Motivational Quote Frame is the perfect addition to your home or office. Featuring high-quality print and a sturdy frame, it inspires positivity and motivation every day.
       </p>
       <div class="mb-2"><span class="font-bold">Frame Material:</span> Premium MDF with glass front</div>
       <div class="mb-2"><span class="font-bold">Print Quality:</span> High-resolution, fade-resistant</div>
       <div class="mb-2"><span class="font-bold">Display:</span> Tabletop & Wall Mount (hook included)</div>
+      <h1 class="font-bold mt-6 mb-2">Additional Information:</h1>
       <details class="mb-2">
         <summary class="cursor-pointer font-semibold">Care Instructions</summary>
         <div class="pl-4 pt-2 text-sm">Wipe with a soft, dry cloth. Avoid direct sunlight for long-lasting colors.</div>
@@ -199,6 +224,42 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+    // Image swap based on URL parameter
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const imgParam = urlParams.get('img');
+      if (imgParam) {
+        const imgElement = document.querySelector('img[alt="Quote Frame"]');
+        imgElement.src = `images/${imgParam}`;
+      }
+    })();
+
+    //quantity buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      const decreaseBtn = document.querySelector('button:nth-of-type(1)');
+      const increaseBtn = document.querySelector('button:nth-of-type(2)');
+      const quantityInput = document.querySelector('input[type="text"]');
+
+      decreaseBtn.addEventListener('click', function() {
+        let currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+
+      increaseBtn.addEventListener('click', function() {
+        let currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      });
+    });
+  </script>
+  </script>
 
 </body>
 </html>

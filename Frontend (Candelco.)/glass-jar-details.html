@@ -38,6 +38,15 @@
       opacity: 1 !important;
       pointer-events: auto !important;
     }
+
+    input[type="radio"].scent:checked + label {
+      background-color: #f4a5a5; /* brand-peach */
+      color: #8b7355;           /* brand-brown */
+    }
+    input[type="radio"].scent:focus + label {
+      box-shadow: 0 0 0 3px rgba(139,115,85,0.15);
+    }
+   
   </style>
 
 </head>
@@ -75,6 +84,9 @@
               <a href="all-products.html?category=frame" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a>
             </li>
             <li>
+              <a href="all-products.html?category=amber" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Amber Jar Candles</a>
+            </li>
+            <li>
               <a href="all-products.html" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All Products</a>
             </li>
           </ul>
@@ -103,6 +115,9 @@
             <li>
               <a href="all-products.html?category=frame" class="block px-4 py-2 text-xs text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a>
             </li>
+            <li>
+              <a href="all-products.html?category=amber" class="block px-4 py-2 text-brand-gray hover:bg-brand-sage hover:text-white transition">Amber Jar Candles</a>
+            </li>  
             <li>
               <a href="all-products.html" class="block px-4 py-2 text-xs text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All</a>
             </li>
@@ -134,33 +149,46 @@
   <div class="max-w-5xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-10 items-start">
     <!-- Product Image -->
     <div>
-      <img src="images/glassprd.jpg" alt="Glass Jar Candles" class="rounded-2xl shadow-lg w-full object-cover">
+      <img id="product-image" src="images/glassprd.jpg" alt="Glass Jar Candles" class="rounded-2xl shadow-lg w-full object-cover">
     </div>
     <!-- Product Details -->
     <div>
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Glass Jar Candles</h1>
-      <div class="text-lg mb-2 font-semibold">Rs. 1,500.00</div>
+      <div class="text-lg mb-2 font-semibold">Rs. 2,500.00</div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
       <div class="mb-4">
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full mr-2">3.5 fl oz.</span>
-        <span class="inline-block px-4 py-2 bg-brand-sage text-white rounded-full">8.5 fl oz.</span>
+        <p class="mb-2 font-semibold">Choose Scent:</p>
+        <div class="flex flex-wrap gap-2">
+          <input id="scent-lavender" name="scent" type="radio" value="lavender" class="hidden scent" checked>
+          <label for="scent-lavender"
+                 class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
+            Lavender
+          </label>
+
+          <input id="scent-amber" name="scent" type="radio" value="amber" class="hidden scent">
+          <label for="scent-amber"
+                 class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
+            Amber
+          </label>
+
+          <input id="scent-rose" name="scent" type="radio" value="rose" class="hidden scent">
+          <label for="scent-rose"
+                 class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
+            Rose
+          </label>
+        </div>
       </div>
       <div class="flex items-center mb-4">
-        <button class="px-3 py-1 border border-brand-gray rounded-l">-</button>
-        <input type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly>
-        <button class="px-3 py-1 border border-brand-gray rounded-r">+</button>
+        <button id="qty-decrease" type="button" class="px-3 py-1 border border-brand-gray rounded-l" aria-label="Decrease quantity">-</button>
+        <input id="qty-input" type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly inputmode="numeric" aria-label="Quantity">
+        <button id="qty-increase" type="button" class="px-3 py-1 border border-brand-gray rounded-r" aria-label="Increase quantity">+</button>
       </div>
       <button class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
-      <div class="mb-4">
-        <input type="checkbox" id="giftbox" class="mr-2">
-        <label for="giftbox">Add Gift Box for Rs. 300.00 (per item)</label>
-      </div>
+      <h1 class="font-bold">Description:</h1>
       <p class="mb-4">
-        Our Motivational Tin Candle is crafted to inspire and uplift. Enjoy premium wax, calming fragrances, and beautiful designs in a sleek, portable tin.
+        Our Glass Jar Candles are crafted to inspire and uplift. Enjoy premium wax, calming fragrances, and beautiful designs in a sleek, portable jar.
       </p>
-      <div class="mb-2"><span class="font-bold">Top Notes:</span> Citrus, Fresh</div>
-      <div class="mb-2"><span class="font-bold">Heart Notes:</span> Floral, Jasmine</div>
-      <div class="mb-2"><span class="font-bold">Base Notes:</span> Musk, Amber</div>
+      <h1 class="font-bold mt-4 mb-2">Additional Information:</h1>
       <details class="mb-2">
         <summary class="cursor-pointer font-semibold">Candle Burn Time</summary>
         <div class="pl-4 pt-2 text-sm">Up to 20 hours (3.5 oz) / Up to 45 hours (8.5 oz)</div>
@@ -199,6 +227,46 @@
       </div>
     </div>
   </footer>
+
+    <!-- Quantity increment/decrement behaviour -->
+  <script>
+    (function () {
+      const dec = document.getElementById('qty-decrease');
+      const inc = document.getElementById('qty-increase');
+      const input = document.getElementById('qty-input');
+      const MIN = 1;
+      const MAX = 99;
+
+      function setQty(n) {
+        let v = Number(n) || MIN;
+        v = Math.max(MIN, Math.min(MAX, Math.floor(v)));
+        input.value = v;
+      }
+
+      dec.addEventListener('click', () => setQty(Number(input.value) - 1));
+      inc.addEventListener('click', () => setQty(Number(input.value) + 1));
+
+      // keyboard activation for accessibility
+      [dec, inc].forEach(btn => {
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+      });
+    })();
+  </script>
+
+  <script src="assets/js/details-image.js"></script>
+
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+    });
+  </script>
 
 </body>
 </html>
