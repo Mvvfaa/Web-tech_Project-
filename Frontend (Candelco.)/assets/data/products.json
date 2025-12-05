@@ -1,0 +1,147 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Motivational Tin Candles",
+      "category": "tin",
+      "price": "1,500",
+      "theme": "Classic",
+      "image": "images/tin.jpg",
+      "description": "Sleek and portable silver tin candles with inspirational quotes and beautiful designs",
+      "detailsPage": "motivational-tin-details.html",
+      "displayName": "Classic Silver Tin Candles"
+    },
+    {
+      "id": 2,
+      "name": "Cat Tin Candles",
+      "category": "tin",
+      "price": "1,500",
+      "theme": "Cat",
+      "image": "images/cat.jpg",
+      "description": "Adorable silver tin candles featuring cute cat designs, perfect for cat lovers and gifting.",
+      "detailsPage": "motivational-tin-details.html",
+      "displayName": "Cat Tin Candles"
+    },
+    {
+      "id": 3,
+      "name": "Self Love Tin Candles",
+      "category": "tin",
+      "price": "1,500",
+      "theme": "Love",
+      "image": "images/selfL.jpg",
+      "description": "Celebrate yourself with these self love themed tin candles, designed to inspire and uplift.",
+      "detailsPage": "motivational-tin-details.html",
+      "displayName": "Self Love Tin Candles"
+    },
+    {
+      "id": 4,
+      "name": "Classic Glass Jar Candles",
+      "category": "glass",
+      "price": "2,500",
+      "theme": "Classic",
+      "image": "images/glassprd.jpg",
+      "description": "Elegant glass jar candles with timeless designs for any space.",
+      "detailsPage": "glass-jar-details.html",
+      "displayName": "Classic Glass Jar Candles"
+    },
+    {
+      "id": 5,
+      "name": "Mini Glass Jar Candles",
+      "category": "glass",
+      "price": "2,000",
+      "theme": "Mini",
+      "image": "images/miniG.jpg",
+      "description": "Elegant glass jar candles with timeless designs for any space.",
+      "detailsPage": "mini-glass-details.html",
+      "displayName": "Mini Glass Jar Candles"
+    },
+    {
+      "id": 6,
+      "name": "Motivational Quote Frames",
+      "category": "frame",
+      "price": "1,250",
+      "theme": "Motivation",
+      "image": "images/motiF.jpg",
+      "description": "Beautiful decorative frames with inspirational quotes to personalize your space",
+      "detailsPage": "motivational-quote-details.html",
+      "displayName": "Motivational Quote Frames"
+    },
+    {
+      "id": 7,
+      "name": "Love Quote Frames",
+      "category": "frame",
+      "price": "1,250",
+      "theme": "Love",
+      "image": "images/po.jpg",
+      "description": "Beautiful decorative frames with inspirational quotes to personalize your space",
+      "detailsPage": "motivational-quote-details.html",
+      "displayName": "Love Quote Frames"
+    },
+    {
+      "id": 8,
+      "name": "BirthDay Frames",
+      "category": "frame",
+      "price": "1,250",
+      "theme": "Birthday",
+      "image": "images/bd.jpg",
+      "description": "Beautiful decorative frames with inspirational quotes to personalize your space",
+      "detailsPage": "motivational-quote-details.html",
+      "displayName": "BirthDay Frames"
+    },
+    {
+      "id": 9,
+      "name": "Ramadan Theme Silver tin Candles",
+      "category": "ramadan",
+      "price": "1,500",
+      "theme": "Ramadan",
+      "image": "images/raami.jpg",
+      "description": "Elegant Ramadan themed tin cans with timeless designs for any space.",
+      "detailsPage": "motivational-tin-details.html",
+      "displayName": "Ramadan Theme Silver Tin Candles"
+    },
+    {
+      "id": 10,
+      "name": "Ramadan Theme Glass Jar Candles",
+      "category": "ramadan",
+      "price": "2,000",
+      "theme": "Ramadan",
+      "image": "images/ramVi.jpg",
+      "description": "Elegant Ramadan themed glass jar candles with timeless designs for any space.",
+      "detailsPage": "glass-jar-details.html",
+      "displayName": "Ramadan Glass Jar Candles"
+    },
+    {
+      "id": 11,
+      "name": "Valentine theme mini Glass Candles",
+      "category": "valentine",
+      "price": "2,000",
+      "theme": "Valentine",
+      "image": "images/miniV.jpg",
+      "description": "Elegant mini Valentine candles with designs for your loved one",
+      "detailsPage": "mini-glass-details.html",
+      "displayName": "Valentine Glass Jar Candles"
+    },
+    {
+      "id": 12,
+      "name": "Valentine theme Frame",
+      "category": "valentine",
+      "price": "1,250",
+      "theme": "Valentine",
+      "image": "images/valentine.jpg",
+      "description": "Elegant Valentine Glass Frames with designs for your loved one",
+      "detailsPage": "motivational-quote-details.html",
+      "displayName": "Valentine Theme Frame"
+    },
+    {
+      "id": 13,
+      "name": "Amber Jar Candles",
+      "category": "amber",
+      "price": "2,500",
+      "theme": "Amber",
+      "image": "images/AmberJ.jpg",
+      "description": "Premium amber jar candles with rich, warm tones and luxurious fragrance blends",
+      "detailsPage": "amber-jar-details.html",
+      "displayName": "Amber Jar Candles"
+    }
+  ]
+}
