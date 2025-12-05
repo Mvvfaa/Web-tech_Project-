@@ -106,10 +106,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
           </svg>
         </a>
-        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition">
+        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
           </svg>
+         <span id="cart-count" class="absolute -top-2 -right-2 bg-brand-peach text-brand-gray text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
         </a>
       </div>
     </nav>
@@ -124,7 +126,7 @@
     <!-- Product Details -->
     <div>
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Amber Jar Candles</h1>
-      <div class="text-lg mb-2 font-semibold">PKR 2,500</div>
+      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Amber Jar Candles" data-price="PKR 2,500">PKR 2,500</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
 
       <div class="mb-4">
@@ -219,12 +221,52 @@
 
       addBtn?.addEventListener('click', () => {
         const qty = Number(document.getElementById('qty-input')?.value) || 1;
-        alert('Added ' + qty + ' Amber Jar Candle(s) to cart.');
+        
+        // Get product info from data attributes
+        const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
+        const productPrice = document.querySelector('[data-price]')?.getAttribute('data-price') || 'PKR 0';
+        const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
+        
+        // Get selected size/scent
+        const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
+        
+        // Get product image
+        const productImage = document.getElementById('product-image')?.src || '';
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItem = {
+          name: productName,
+          price: productPrice,
+          theme: productTheme,
+          qty: qty,
+          size: selectedSize,
+          image: productImage
+        };
+        
+        // Match by name AND size AND theme (different themes = different cart items)
+        const existingItem = cart.find(item => 
+          item.name === productName && 
+          item.size === selectedSize && 
+          item.theme === productTheme
+        );
+        if (existingItem) {
+          existingItem.qty += qty;
+        } else {
+          cart.push(cartItem);
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        const badge = document.getElementById('cart-count');
+        if (badge) {
+          const count = cart.reduce((sum, item) => sum + item.qty, 0);
+          badge.textContent = count;
+        }
+        
+        alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
       });
     })();
   </script>
-
-  <script src="assets/js/details-image.js"></script>
 
   <script>
     AOS.init({
@@ -232,6 +274,35 @@
       easing: 'ease-in-out',
       once: true,
     });
+  </script>
+
+  <script src="assets/js/details-image.js"></script>
+
+  <script>
+    (function () {
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        const badge = document.getElementById('cart-count');
+        if (badge) badge.textContent = count;
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+    <script>
+    (function () {
+      // Get theme from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const theme = urlParams.get('theme') || 'Classic';
+      
+      // Store theme in data attribute for cart script
+      const priceElement = document.querySelector('[data-price]');
+      if (priceElement) {
+        priceElement.setAttribute('data-theme', theme);
+      }
+    })();
   </script>
 
 </body>

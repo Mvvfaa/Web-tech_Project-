@@ -125,30 +125,54 @@
           </svg>
         </a>
         <!-- Cart Icon -->
-        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition">
+        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
           </svg>
+         <span id="cart-count" class="absolute -top-2 -right-2 bg-brand-peach text-brand-gray text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
         </a>
       </div>
     </nav>
   </header>
 
-  <!-- Empty cart -->
-  <main class="min-h-screen flex items-center justify-center">
-    <div class="text-center max-w-lg w-full px-6">
-      <h1 class="font-serif text-5xl md:text-6xl font-normal mb-10 text-brand-gray">Your cart is empty</h1>
+  <!-- Main Cart Content -->
+  <main class="py-12 px-4 md:px-8">
+    <div id="cart-empty" class="min-h-screen flex items-center justify-center">
+      <div class="text-center max-w-lg w-full">
+        <h1 class="font-serif text-5xl md:text-6xl font-normal mb-10 text-brand-gray">Your cart is empty</h1>
+        <div class="mb-12">
+          <a href="index.html" class="inline-block bg-brand-gray text-white px-8 py-3 rounded-xl shadow-md hover:scale-105 transition transform">
+            Continue shopping
+          </a>
+        </div>
+        <div class="text-lg">
+          <p class="mb-2">Have an account?</p>
+          <a href="login.html" class="underline text-brand-brown hover:text-brand-sage transition">Log in</a><span class="text-brand-light-gray ml-2">to check out faster.</span>
+        </div>
+      </div>
+    </div>
 
-      <div class="mb-12">
-        <a href="index.html" class="inline-block bg-brand-gray text-white px-8 py-3 rounded-xl shadow-md hover:scale-105 transition transform" style="background:#2c2c2c;">
-          Continue shopping
-        </a>
+    <div id="cart-filled" class="hidden max-w-5xl mx-auto">
+      <h1 class="text-4xl font-bold mb-8 text-brand-brown">Shopping Cart</h1>
+      
+      <div id="cart-items" class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <!-- Items will be inserted here by JS -->
       </div>
 
-      <div class="text-lg">
-        <p class="mb-2">Have an account?</p>
-        <a href="login.html" class="underline text-brand-brown hover:text-brand-sage transition">Log in</a><span class="text-brand-light-gray ml-2">to check out faster.</span>
+      <div id="cart-summary" class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6 pb-6 border-b">
+          <p class="text-xl font-semibold">Subtotal:</p>
+          <p class="text-xl font-semibold text-brand-brown"><span id="cart-subtotal">PKR 0</span></p>
+        </div>
+        <div class="flex justify-between items-center mb-6">
+          <p class="text-2xl font-bold">Total:</p>
+          <p class="text-2xl font-bold text-brand-brown"><span id="cart-total">PKR 0</span></p>
+        </div>
+        <div class="flex gap-4 flex-col sm:flex-row">
+          <button id="checkout-btn" class="flex-1 px-8 py-3 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">Proceed to Checkout</button>
+          <a href="all-products.html" class="flex-1 px-8 py-3 border border-brand-gray text-center rounded-full hover:bg-brand-section transition">Continue Shopping</a>
+        </div>
       </div>
     </div>
   </main>
@@ -174,6 +198,244 @@
       </div>
     </div>
   </footer>
+
+    <!-- Cart Logic Script -->
+  <script>
+    (function () {
+      const cartEmptyEl = document.getElementById('cart-empty');
+      const cartFilledEl = document.getElementById('cart-filled');
+      const cartItemsEl = document.getElementById('cart-items');
+      const cartSubtotalEl = document.getElementById('cart-subtotal');
+      const cartTotalEl = document.getElementById('cart-total');
+      const cartCountEl = document.getElementById('cart-count');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      const SHIPPING_FEE = 250; // PKR shipping fee
+
+      function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        if (cart.length === 0) {
+          cartEmptyEl.classList.remove('hidden');
+          cartFilledEl.classList.add('hidden');
+          cartCountEl.textContent = '0';
+          return;
+        }
+
+        cartEmptyEl.classList.add('hidden');
+        cartFilledEl.classList.remove('hidden');
+
+        let html = '';
+        let subtotal = 0;
+
+        cart.forEach((item, idx) => {
+          const price = parseInt(item.price.replace(/\D/g, '')) || 0;
+          const itemTotal = price * item.qty;
+          subtotal += itemTotal;
+
+          html += `
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-6 mb-6 gap-4">
+              <div class="flex items-start sm:items-center gap-4 flex-1">
+                ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">` : '<div class="w-20 h-20 bg-brand-section rounded flex items-center justify-center text-brand-light-gray">No Image</div>'}
+                <div>
+                  <h3 class="font-bold text-lg text-brand-brown">${item.name}</h3>
+                  <p class="text-sm text-brand-light-gray" id="product-size-${index}"></p>
+                  <p class="text-brand-light-gray">${item.price}</p>
+                  <div class="mt-2 flex items-center gap-2">
+                    <span class="text-sm text-brand-light-gray">Quantity:</span>
+                    <span class="font-semibold">${item.qty}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto sm:justify-end">
+                <p class="font-bold text-lg">PKR ${itemTotal.toLocaleString()}</p>
+                <button onclick="removeFromCart(${idx})" class="px-4 py-2 bg-brand-peach text-brand-gray font-semibold rounded hover:bg-red-300 transition w-full sm:w-auto">Remove</button>
+              </div>
+            </div>
+          `;
+        });
+
+        const total = subtotal + SHIPPING_FEE;
+
+        cartItemsEl.innerHTML = html;
+        cartSubtotalEl.textContent = 'PKR ' + subtotal.toLocaleString();
+        cartTotalEl.textContent = 'PKR ' + total.toLocaleString();
+        cartCountEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+      }
+
+      window.removeFromCart = function(idx) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.splice(idx, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+      };
+
+      checkoutBtn?.addEventListener('click', () => {
+        alert('Checkout functionality coming soon! Thank you for your order.');
+      });
+
+      renderCart();
+    })();
+  </script>
+
+  <!-- Quantity Selector and Add to Cart Script -->
+  <script>
+    (function () {
+      const dec = document.getElementById('qty-decrease');
+      const inc = document.getElementById('qty-increase');
+      const input = document.getElementById('qty-input');
+      const addBtn = document.getElementById('add-to-cart');
+      const MIN = 1;
+      const MAX = 99;
+
+      function setQty(n) {
+        let v = Number(n) || MIN;
+        v = Math.max(MIN, Math.min(MAX, Math.floor(v)));
+        input.value = v;
+      }
+
+      if (dec && inc && input) {
+        dec.addEventListener('click', () => setQty(Number(input.value) - 1));
+        inc.addEventListener('click', () => setQty(Number(input.value) + 1));
+
+        [dec, inc].forEach(btn => {
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              btn.click();
+            }
+          });
+        });
+      }
+
+      addBtn?.addEventListener('click', () => {
+        const qty = Number(document.getElementById('qty-input')?.value) || 1;
+        
+        // Get product info from data attributes
+        const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
+        const productPrice = document.querySelector('[data-price]')?.getAttribute('data-price') || 'PKR 0';
+        const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
+        
+        // Get selected size/scent
+        const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
+        
+        // Get product image
+        const productImage = document.getElementById('product-image')?.src || '';
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItem = {
+          name: productName,
+          price: productPrice,
+          theme: productTheme,
+          qty: qty,
+          size: selectedSize,
+          image: productImage
+        };
+        
+        // Match by name AND size AND theme (different themes = different cart items)
+        const existingItem = cart.find(item => 
+          item.name === productName && 
+          item.size === selectedSize && 
+          item.theme === productTheme
+        );
+        if (existingItem) {
+          existingItem.qty += qty;
+        } else {
+          cart.push(cartItem);
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        const badge = document.getElementById('cart-count');
+        if (badge) {
+          const count = cart.reduce((sum, item) => sum + item.qty, 0);
+          badge.textContent = count;
+        }
+        
+        alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        const badge = document.getElementById('cart-count');
+        if (badge) badge.textContent = count;
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+    <script>
+    function displayCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsContainer = document.getElementById('cart-items');
+      
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center text-brand-light-gray">Your cart is empty</p>';
+        return;
+      }
+      
+      let html = '';
+      cart.forEach((item, index) => {
+        const priceValue = parseInt(item.price.replace(/[^0-9]/g, '')) || 0;
+        const itemTotal = priceValue * item.qty;
+        
+        html += `
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-6 mb-6 gap-4">
+            <div class="flex items-start sm:items-center gap-4 flex-1">
+              <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">
+              <div>
+                <h3 class="font-bold text-lg text-brand-brown">${item.name}</h3>
+                <p class="text-xs text-brand-peach font-semibold">${item.theme || 'Classic'}</p>
+                <p class="text-sm text-brand-light-gray">${item.size ? 'Size: ' + item.size : ''}</p>
+                <p class="text-brand-light-gray">${item.price}</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <span class="text-sm text-brand-light-gray">Quantity:</span>
+                  <span class="font-semibold">${item.qty}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto sm:justify-end">
+              <p class="font-bold text-lg">PKR ${itemTotal.toLocaleString()}</p>
+              <button onclick="removeFromCart(${index})" class="px-4 py-2 bg-brand-peach text-brand-gray font-semibold rounded hover:bg-red-300 transition w-full sm:w-auto">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+      
+      cartItemsContainer.innerHTML = html;
+      updateSummary();
+    }
+    
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+    }
+    
+    function updateSummary() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const subtotal = cart.reduce((sum, item) => {
+        const price = parseInt(item.price.replace(/[^0-9]/g, '')) || 0;
+        return sum + (price * item.qty);
+      }, 0);
+      
+      const shipping = 250;
+      const total = subtotal + shipping;
+      
+      document.getElementById('cart-subtotal').textContent = 'PKR ' + subtotal.toLocaleString();
+      document.getElementById('cart-total').textContent = 'PKR ' + total.toLocaleString();
+    }
+    
+    displayCart();
+  </script>
+
 
 </body>
 </html>

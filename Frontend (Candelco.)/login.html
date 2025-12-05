@@ -141,11 +141,12 @@
           </svg>
         </a>
         <!-- Cart Icon -->
-        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition">
+        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
           </svg>
+         <span id="cart-count" class="absolute -top-2 -right-2 bg-brand-peach text-brand-gray text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
         </a>
       </div>
     </nav>
@@ -282,5 +283,19 @@
       alert('Login functionality will be implemented soon!');
     });
   </script>
+
+  <script>
+    (function () {
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        const badge = document.getElementById('cart-count');
+        if (badge) badge.textContent = count;
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
 </body>
 </html>

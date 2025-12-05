@@ -135,11 +135,12 @@
           </svg>
         </a>
         <!-- Cart Icon -->
-        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition">
+        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
           </svg>
+         <span id="cart-count" class="absolute -top-2 -right-2 bg-brand-peach text-brand-gray text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
         </a>
       </div>
     </nav>
@@ -148,36 +149,38 @@
   <div class="max-w-5xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-10 items-start">
     <!-- Product Image -->
     <div>
-      <img src="images/motiF.jpg" alt="Quote Frame" class="rounded-2xl shadow-lg w-full object-cover">
+      <img id="product-image" src="images/motiF.jpg" alt="Quote Frame" class="rounded-2xl shadow-lg w-full object-cover">
     </div>
     <!-- Product Details -->
     <div>
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Quote Frame</h1>
-      <div class="text-lg mb-2 font-semibold">Rs. 1,000.00</div>
+      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Quote Frames" data-price="PKR 1,000">PKR 1,000</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
       
       <div class="mb-4">
         <p class="mb-2 font-semibold">Choose Size:</p>
         <div class="flex flex-wrap gap-2">
-          <input id="scent-lavender" name="scent" type="radio" value="lavender" class="hidden scent" checked>
+          <input id="scent-lavender" name="scent" type="radio" value="Small" class="hidden scent" checked>
           <label for="scent-lavender"
                  class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
-            TBD
+            Small
           </label>
-          <input id="scent-amber" name="scent" type="radio" value="amber" class="hidden scent">
+          <input id="scent-amber" name="scent" type="radio" value="Medium" class="hidden scent">
           <label for="scent-amber"
                  class="inline-block cursor-pointer px-4 py-2 rounded-full bg-brand-sage text-white peer-checked:bg-brand-peach peer-checked:text-brand-brown peer-focus:ring-2 peer-focus:ring-brand-brown transition">
-            TBD
+            Medium
           </label>
         </div>
       </div>
-      
+      <!-- +Button- -->
       <div class="flex items-center mb-4">
-        <button class="px-3 py-1 border border-brand-gray rounded-l">-</button>
-        <input type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly>
-        <button class="px-3 py-1 border border-brand-gray rounded-r">+</button>
+        <button id="qty-decrease" type="button" class="px-3 py-1 border border-brand-gray rounded-l" aria-label="Decrease quantity">-</button>
+        <input id="qty-input" type="text" value="1" class="w-12 text-center border-t border-b border-brand-gray" readonly inputmode="numeric" aria-label="Quantity">
+        <button id="qty-increase" type="button" class="px-3 py-1 border border-brand-gray rounded-r" aria-label="Increase quantity">+</button>
       </div>
-      <button class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
+      
+      <button id="add-to-cart" class="w-full py-3 bg-brand-gray text-white font-bold rounded mb-4">Add to cart</button>
+
       <h1 class="font-bold">Description:</h1>
       <p class="mb-4">
         Our Motivational Quote Frame is the perfect addition to your home or office. Featuring high-quality print and a sturdy frame, it inspires positivity and motivation every day.
@@ -241,25 +244,131 @@
     })();
 
     //quantity buttons
-    document.addEventListener('DOMContentLoaded', function() {
-      const decreaseBtn = document.querySelector('button:nth-of-type(1)');
-      const increaseBtn = document.querySelector('button:nth-of-type(2)');
-      const quantityInput = document.querySelector('input[type="text"]');
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   const decreaseBtn = document.querySelector('button:nth-of-type(1)');
+    //   const increaseBtn = document.querySelector('button:nth-of-type(2)');
+    //   const quantityInput = document.querySelector('input[type="text"]');
 
-      decreaseBtn.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-          quantityInput.value = currentValue - 1;
+    //   decreaseBtn.addEventListener('click', function() {
+    //     let currentValue = parseInt(quantityInput.value);
+    //     if (currentValue > 1) {
+    //       quantityInput.value = currentValue - 1;
+    //     }
+    //   });
+
+    //   increaseBtn.addEventListener('click', function() {
+    //     let currentValue = parseInt(quantityInput.value);
+    //     quantityInput.value = currentValue + 1;
+    //   });
+    // });
+  </script>
+
+
+  <script>
+    (function () {
+      const dec = document.getElementById('qty-decrease');
+      const inc = document.getElementById('qty-increase');
+      const input = document.getElementById('qty-input');
+      const addBtn = document.getElementById('add-to-cart');
+      const MIN = 1;
+      const MAX = 99;
+
+      function setQty(n) {
+        let v = Number(n) || MIN;
+        v = Math.max(MIN, Math.min(MAX, Math.floor(v)));
+        input.value = v;
+      }
+
+      if (dec && inc && input) {
+        dec.addEventListener('click', () => setQty(Number(input.value) - 1));
+        inc.addEventListener('click', () => setQty(Number(input.value) + 1));
+
+        [dec, inc].forEach(btn => {
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              btn.click();
+            }
+          });
+        });
+      }
+
+      addBtn?.addEventListener('click', () => {
+        const qty = Number(document.getElementById('qty-input')?.value) || 1;
+        
+        // Get product info from data attributes
+        const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
+        const productPrice = document.querySelector('[data-price]')?.getAttribute('data-price') || 'PKR 0';
+        const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
+        
+        // Get selected size/scent
+        const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
+        
+        // Get product image
+        const productImage = document.getElementById('product-image')?.src || '';
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItem = {
+          name: productName,
+          price: productPrice,
+          theme: productTheme,
+          qty: qty,
+          size: selectedSize,
+          image: productImage
+        };
+        
+        // Match by name AND size AND theme (different themes = different cart items)
+        const existingItem = cart.find(item => 
+          item.name === productName && 
+          item.size === selectedSize && 
+          item.theme === productTheme
+        );
+        if (existingItem) {
+          existingItem.qty += qty;
+        } else {
+          cart.push(cartItem);
         }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        const badge = document.getElementById('cart-count');
+        if (badge) {
+          const count = cart.reduce((sum, item) => sum + item.qty, 0);
+          badge.textContent = count;
+        }
+        
+        alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
       });
+    })();
+  </script>
 
-      increaseBtn.addEventListener('click', function() {
-        let currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
-      });
-    });
+  <script>
+    (function () {
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((sum, item) => sum + item.qty, 0);
+        const badge = document.getElementById('cart-count');
+        if (badge) badge.textContent = count;
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
   </script>
+
+    <script>
+    (function () {
+      // Get theme from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const theme = urlParams.get('theme') || 'Classic';
+      
+      // Store theme in data attribute for cart script
+      const priceElement = document.querySelector('[data-price]');
+      if (priceElement) {
+        priceElement.setAttribute('data-theme', theme);
+      }
+    })();
   </script>
+
 
 </body>
 </html>
