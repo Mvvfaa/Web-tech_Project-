@@ -227,7 +227,7 @@
     </div>
   </footer>
 
-  <!-- Quantity increment/decrement behaviour -->
+  <!-- Quantity Buttons -->
   <script>
     (function () {
       const dec = document.getElementById('qty-decrease');
@@ -245,7 +245,7 @@
       dec.addEventListener('click', () => setQty(Number(input.value) - 1));
       inc.addEventListener('click', () => setQty(Number(input.value) + 1));
 
-      // keyboard activation for accessibility
+      //keyboard accessibility
       [dec, inc].forEach(btn => {
         btn.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -257,7 +257,7 @@
     })();
   </script>
 
-  <!-- Select image from URL param (sanitised). Usage: motivational-tin-details.html?img=selfL.jpg -->
+  <!-- image swap -->
   <script>
     (function () {
       const imgEl = document.getElementById('product-image');

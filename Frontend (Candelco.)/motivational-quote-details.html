@@ -40,8 +40,8 @@
     }
 
     input[type="radio"].scent:checked + label {
-      background-color: #f4a5a5; /* brand-peach */
-      color: #8b7355;           /* brand-brown */
+      background-color: #f4a5a5; 
+      color: #8b7355;          
     }
     input[type="radio"].scent:focus + label {
       box-shadow: 0 0 0 3px rgba(139,115,85,0.15);
@@ -230,7 +230,7 @@
       duration: 800,
       once: true
     });
-    // Image swap based on URL parameter
+    // Image swap
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       const imgParam = urlParams.get('img');
