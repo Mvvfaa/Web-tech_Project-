@@ -191,303 +191,102 @@
     </div>
   </div>
 
-  <!-- Added data attributes to product cards for filtering/sorting -->
   <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-    
-    <!-- Simple Tin Candles -->
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500" 
-         data-category="tin" 
-         data-name="Motivational Tin Candles" 
-         data-price="1,500"
-         data-theme="Classic"
-         data-aos="zoom-in" data-aos-delay="0">
-      <img src="images/tin.jpg" class="w-full h-64 object-cover">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Classic Silver Tin Candles</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 1,500</p>
-        <p class="text-brand-light-gray mb-4">Sleek and portable silver tin candles with inspirational quotes and beautiful designs</p>
-        <button onclick="goToDetails('motivational-tin-details.html?img=tin.jpg&theme=Classic')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-
-    <!-- Cat Tin Candles -->
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500" 
-         data-category="tin" 
-         data-name="Cat Tin Candles" 
-         data-price="1,500"
-         data-theme="Cat"
-         data-aos="zoom-in" data-aos-delay="100">
-      <img src="images/cat.jpg" class="w-full h-64 object-cover" alt="Cat Tin Candle">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Cat Tin Candles</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 1,500</p>
-        <p class="text-brand-light-gray mb-4">Adorable silver tin candles featuring cute cat designs, perfect for cat lovers and gifting.</p>
-        <button onclick="goToDetails('motivational-tin-details.html?img=cat.jpg&theme=Cat')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-
-    <!-- Self Love Tin Candles -->
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500" 
-         data-category="tin" 
-         data-name="Self Love Tin Candles" 
-         data-price="1,500"
-         data-theme="Love"
-         data-aos="zoom-in" data-aos-delay="200">
-      <img src="images/selfL.jpg" class="w-full h-64 object-cover" alt="Self Love Tin Candle">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Self Love Tin Candles</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 1,500</p>
-        <p class="text-brand-light-gray mb-4">Celebrate yourself with these self love themed tin candles, designed to inspire and uplift.</p>
-        <button onclick="goToDetails('motivational-tin-details.html?img=selfL.jpg&theme=Love')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="glass" 
-         data-name="Classic Glass Jar Candles" 
-         data-price="2,500"
-         data-theme="Classic"
-         data-aos="zoom-in" data-aos-delay="0">
-      <img src="images/glassprd.jpg" class="w-full h-64 object-cover">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Classic Glass Jar Candles</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 2,500</p>
-        <p class="text-brand-light-gray mb-4">Elegant glass jar candles with timeless designs for any space.</p>
-        <button onclick="goToDetails('glass-jar-details.html?img=glassprd.jpg&theme=Classic')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="glass" 
-         data-name="Mini Glass Jar Candles" 
-         data-price="2,000"
-         data-theme="Mini"
-         data-aos="zoom-in" data-aos-delay="100">
-      <img src="images/miniG.jpg" class="w-full h-64 object-cover">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Mini Glass Jar Candles</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 2,000</p>
-        <p class="text-brand-light-gray mb-4">Elegant glass jar candles with timeless designs for any space.</p>
-        <button onclick="goToDetails('mini-glass-details.html?img=miniG.jpg&theme=Mini')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-    
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="frame" 
-         data-name="Motivational Quote Frames"
-         data-price="1,250"
-         data-theme="Motivation"
-         data-aos="zoom-in" data-aos-delay="200">
-      <img src="images/motiF.jpg" class="w-full h-64 object-cover">
-      <div class="p-6 text-center">
-        <h3 class="text-xl font-bold">Motivational Quote Frames</h3>
-        <p class="text-brand-brown font-semibold mb-2">PKR 1,250</p>
-        <p class="text-brand-light-gray mb-4">Beautiful decorative frames with inspirational quotes to personalize your space</p>
-        <button onclick="goToDetails('motivational-quote-details.html?img=motiF.jpg&theme=Motivation')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>
-    </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="frame" 
-         data-name="Love Quote Frames" 
-         data-price="1,000"
-         data-theme="Love"
-         data-aos="zoom-in" data-aos-delay="300">
-        <img src="images/po.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Love Quote Frames</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 1,250</p>
-          <p class="text-brand-light-gray mb-4">Beautiful decorative frames with inspirational quotes to personalize your space</p>
-          <button onclick="goToDetails('motivational-quote-details.html?img=po.jpg&theme=Love')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-      </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="frame" 
-         data-name="BirthDay Frames" 
-         data-price="1,250"
-         data-theme="Birthday"
-         data-aos="zoom-in" data-aos-delay="400">
-        <img src="images/bd.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">BirthDay Frames</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 1,250</p>
-          <p class="text-brand-light-gray mb-4">Beautiful decorative frames with inspirational quotes to personalize your space</p>
-          <button onclick="goToDetails('motivational-quote-details.html?img=bd.jpg&theme=Birthday')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-    </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="ramadan" 
-         data-name="Ramadan Theme Silver tin Candles" 
-         data-price="1,500"
-         data-theme="Ramadan"
-         data-aos="zoom-in" data-aos-delay="0">
-        <img src="images/raami.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Ramadan Theme Silver Tin Candles</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 1,500</p>
-          <p class="text-brand-light-gray mb-4">Elegant Ramadan themed tin cans with timeless designs for any space.</p>
-          <button onclick="goToDetails('motivational-tin-details.html?img=raami.jpg&theme=Ramadan')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-    </div>
-      
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="ramadan" 
-         data-name="Ramadan Theme Glass Jar Candles"
-         data-price="2,000"
-         data-theme="Ramadan"
-         data-aos="zoom-in" data-aos-delay="100">
-        <img src="images/ramVi.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Ramadan Glass Jar Candles</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 2,000</p>
-          <p class="text-brand-light-gray mb-4">Elegant Ramadan themed glass jar candles with timeless designs for any space.</p>
-          <button onclick="goToDetails('glass-jar-details.html?img=ramVi.jpg&theme=Ramadan')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-          View Details
-        </button>
-      </div>  
-    </div>
-    
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="valentine" 
-         data-name="Valentine theme mini Glass Candles"
-         data-price="2,000"
-         data-theme="Valentine"
-         data-aos="zoom-in" data-aos-delay="200">
-        <img src="images/miniV.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Valentine Glass Jar Candles</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 2,000</p>
-          <p class="text-brand-light-gray mb-4">Elegant mini Valentine candles with designs for your loved one</p>
-          <button onclick="goToDetails('mini-glass-details.html?img=miniV.jpg&theme=Valentine')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-    </div>
-
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="valentine" 
-         data-name="Valentine theme Frame" 
-         data-price="1,250"
-         data-theme="Valentine"
-         data-aos="zoom-in" data-aos-delay="300">
-        <img src="images/valentine.jpg" class="w-full h-64 object-cover">
-        <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">Valentine Theme Frame</h3>
-          <p class="text-brand-brown font-semibold mb-2">PKR 1,250</p>
-          <p class="text-brand-light-gray mb-4">Elegant Valentine Glass Frames with designs for your loved one</p>
-          <button onclick="goToDetails('motivational-quote-details.html?img=valentine.jpg&theme=Valentine')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-            View Details
-          </button>
-        </div>
-    </div>
-
-    <!-- Amber Jar Candles -->
-    <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500"
-         data-category="amber"
-         data-name="Amber Jar Candles"
-         data-price="2,500"
-          data-theme="Amber"
-         data-aos="zoom-in" data-aos-delay="500">
-       <img src="images/AmberJ.jpg" class="w-full h-64 object-cover">
-       <div class="p-6 text-center">
-         <h3 class="text-xl font-bold">Amber Jar Candles</h3>
-         <p class="text-brand-brown font-semibold mb-2">PKR 2,500</p>
-         <p class="text-brand-light-gray mb-4">Premium amber jar candles with rich, warm tones and luxurious fragrance blends</p>
-         <button onclick="goToDetails('amber-jar-details.html?img=AmberJ.jpg&theme=Classic')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
-           Shop Collection
-         </button>
-       </div>
-     </div>
-
+    <!-- Products will be loaded here by JavaScript -->
   </div>
 </section>
 
-<!-- Added JavaScript for browse, filter, and sort functionality -->
 <script>
+  let allProducts = [];
+
+  // Load products from JSON
+  fetch('assets/data/products.json')
+    .then(response => response.json())
+    .then(data => {
+      allProducts = data.products;
+      renderProducts(allProducts);
+      applyURLFilter();
+    })
+    .catch(error => console.error('Error loading products:', error));
+
+  function renderProducts(products) {
+    const productsGrid = document.getElementById('productsGrid');
+    productsGrid.innerHTML = '';
+
+    if (products.length === 0) {
+      productsGrid.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-2xl text-brand-light-gray">No products found.</p></div>';
+      return;
+    }
+
+    products.forEach((product, index) => {
+      const card = document.createElement('div');
+      card.className = 'product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500';
+      card.setAttribute('data-category', product.category);
+      card.setAttribute('data-name', product.name);
+      card.setAttribute('data-price', product.price.replace(',', ''));
+      card.setAttribute('data-theme', product.theme);
+      card.setAttribute('data-aos', 'zoom-in');
+      card.setAttribute('data-aos-delay', (index * 100) % 500);
+
+      card.innerHTML = `
+        <img src="${product.image}" class="w-full h-64 object-cover">
+        <div class="p-6 text-center">
+          <h3 class="text-xl font-bold">${product.displayName}</h3>
+          <p class="text-brand-brown font-semibold mb-2">PKR ${product.price}</p>
+          <p class="text-brand-light-gray mb-4">${product.description}</p>
+          <button onclick="goToDetails('${product.detailsPage}?img=${product.image.split('/')[1]}&theme=${product.theme}')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
+            View Details
+          </button>
+        </div>
+      `;
+
+      productsGrid.appendChild(card);
+    });
+  }
+
   const searchInput = document.getElementById('searchInput');
   const categoryFilter = document.getElementById('categoryFilter');
   const sortSelect = document.getElementById('sortSelect');
-  const productsGrid = document.getElementById('productsGrid');
-  const productCards = Array.from(document.querySelectorAll('.product-card'));
-
-  function applyURLFilter() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryParam = urlParams.get('category');
-    
-    if (categoryParam) {
-      categoryFilter.value = categoryParam;
-      filterAndSort();
-    }
-  }
 
   function filterAndSort() {
     const searchTerm = searchInput.value.toLowerCase();
     const selectedCategory = categoryFilter.value;
     const sortOption = sortSelect.value;
 
-    // Filter products
-    let filteredProducts = productCards.filter(card => {
-      const name = card.dataset.name.toLowerCase();
-      const category = card.dataset.category;
-      
-      const matchesSearch = name.includes(searchTerm);
-      const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
-      
+    let filtered = allProducts.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(searchTerm) || product.displayName.toLowerCase().includes(searchTerm);
+      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
 
-    // Sort products
     if (sortOption === 'name-asc') {
-      filteredProducts.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name));
+      filtered.sort((a, b) => a.displayName.localeCompare(b.displayName));
     } else if (sortOption === 'name-desc') {
-      filteredProducts.sort((a, b) => b.dataset.name.localeCompare(a.dataset.name));
+      filtered.sort((a, b) => b.displayName.localeCompare(a.displayName));
     } else if (sortOption === 'price-asc') {
-      filteredProducts.sort((a, b) => parseInt(a.dataset.price) - parseInt(b.dataset.price));
+      filtered.sort((a, b) => parseInt(a.price.replace(',', '')) - parseInt(b.price.replace(',', '')));
     } else if (sortOption === 'price-desc') {
-      filteredProducts.sort((a, b) => parseInt(b.dataset.price) - parseInt(a.dataset.price));
+      filtered.sort((a, b) => parseInt(b.price.replace(',', '')) - parseInt(a.price.replace(',', '')));
     }
 
-    // Clear and re-render
-    productsGrid.innerHTML = '';
-    filteredProducts.forEach(card => {
-      productsGrid.appendChild(card);
-    });
-
-    // Show message if no products found
-    if (filteredProducts.length === 0) {
-      productsGrid.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-2xl text-brand-light-gray">No products found matching your criteria.</p></div>';
-    }
+    renderProducts(filtered);
   }
 
-  // Event listeners
   searchInput.addEventListener('input', filterAndSort);
   categoryFilter.addEventListener('change', filterAndSort);
   sortSelect.addEventListener('change', filterAndSort);
 
-  applyURLFilter();  
-
+  function applyURLFilter() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+      categoryFilter.value = categoryParam;
+      filterAndSort();
+    }
+  }
 </script>
 
+  <!-- Quantity and Add to Cart Script -->
 <script>
     (function () {
       const dec = document.getElementById('qty-decrease');
