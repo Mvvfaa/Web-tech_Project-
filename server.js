@@ -1,32 +1,34 @@
 require('dotenv').config();
 const express = require('express');
-
 const mongoose = require('mongoose');
-const Category = require('./models/Category');
-const Product = require('./models/Product');
-const Order = require('./models/Order');
-
-// Example use:
-// const newCategory = new Category({ name: 'Candles', description: 'Scented candles' });
-// await newCategory.save();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware (optional, for JSON bodies)
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected!'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+  .then(() => console.log('^_^ MongoDB connected successfully'))
+  .catch(err => console.log('X MongoDB connection error:', err));
 
-// Route example
-app.get('/', (req, res) => {
-  res.send('Server is running!');
+// Import Routes
+const categoryRoutes = require('./routes/categories');
+const productRoutes = require('./routes/products');
+const orderRoutes = require('./routes/orders');
+
+// API Routes
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
+// Test Route
+app.get('/api/test', (req, res) => {
+  res.json({ message: '^_^ Server is running!' });
 });
 
-// Start server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`^_^ Server is running on port ${PORT}`);
 });
