@@ -20,7 +20,7 @@ exports.getAllCategories = async (req, res) => {
 // Get single category
 exports.getCategory = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id);
+    const category = await Category.findOne({ _id: req.params.id, isActive: true });
     if (!category) {
       return res.status(404).json({
         success: false,
@@ -32,6 +32,9 @@ exports.getCategory = async (req, res) => {
       data: category
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid category ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message
@@ -49,6 +52,9 @@ exports.createCategory = async (req, res) => {
       data: category
     });
   } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -59,8 +65,9 @@ exports.createCategory = async (req, res) => {
 // Update category
 exports.updateCategory = async (req, res) => {
   try {
-    const category = await Category.findByIdAndUpdate(
-      req.params.id,
+    // Only update active categories
+    const category = await Category.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       req.body,
       { new: true, runValidators: true }
     );
@@ -76,6 +83,12 @@ exports.updateCategory = async (req, res) => {
       data: category
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid category ID format' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -83,11 +96,12 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-// Delete category
+// Delete category (soft delete)
 exports.deleteCategory = async (req, res) => {
   try {
-    const category = await Category.findByIdAndUpdate(
-      req.params.id,
+    // Only soft-delete if the category is currently active
+    const category = await Category.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       { isActive: false },
       { new: true }
     );
@@ -102,6 +116,9 @@ exports.deleteCategory = async (req, res) => {
       message: 'Category deleted successfully'
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid category ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message

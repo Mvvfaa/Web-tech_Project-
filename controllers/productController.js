@@ -29,7 +29,7 @@ exports.getAllProducts = async (req, res) => {
 // Get single product
 exports.getProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate('category');
+    const product = await Product.findOne({ _id: req.params.id, isActive: true }).populate('category');
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -41,6 +41,9 @@ exports.getProduct = async (req, res) => {
       data: product
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid product ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message
@@ -58,6 +61,9 @@ exports.createProduct = async (req, res) => {
       data: product
     });
   } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -68,8 +74,8 @@ exports.createProduct = async (req, res) => {
 // Update product
 exports.updateProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
+    const product = await Product.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       req.body,
       { new: true, runValidators: true }
     );
@@ -85,6 +91,12 @@ exports.updateProduct = async (req, res) => {
       data: product
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid product ID format' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -92,11 +104,11 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// Delete product
+// Delete product (soft delete)
 exports.deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
+    const product = await Product.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       { isActive: false },
       { new: true }
     );
@@ -111,6 +123,9 @@ exports.deleteProduct = async (req, res) => {
       message: 'Product deleted successfully'
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid product ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message

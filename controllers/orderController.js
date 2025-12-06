@@ -22,7 +22,7 @@ exports.getAllOrders = async (req, res) => {
 // Get single order
 exports.getOrder = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate('items.product');
+    const order = await Order.findOne({ _id: req.params.id, isActive: true }).populate('items.product');
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -34,6 +34,9 @@ exports.getOrder = async (req, res) => {
       data: order
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid order ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message
@@ -51,6 +54,9 @@ exports.createOrder = async (req, res) => {
       data: order
     });
   } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -61,8 +67,8 @@ exports.createOrder = async (req, res) => {
 // Update order
 exports.updateOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
+    const order = await Order.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       req.body,
       { new: true, runValidators: true }
     );
@@ -78,6 +84,12 @@ exports.updateOrder = async (req, res) => {
       data: order
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid order ID format' });
+    }
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
     res.status(400).json({
       success: false,
       message: error.message
@@ -85,11 +97,11 @@ exports.updateOrder = async (req, res) => {
   }
 };
 
-// Delete order
+// Delete order (soft delete)
 exports.deleteOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
+    const order = await Order.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
       { isActive: false },
       { new: true }
     );
@@ -104,6 +116,9 @@ exports.deleteOrder = async (req, res) => {
       message: 'Order deleted successfully'
     });
   } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid order ID format' });
+    }
     res.status(500).json({
       success: false,
       message: error.message
