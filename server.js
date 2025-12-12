@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -35,6 +36,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/api/test', (req, res) => {
   res.json({ message: '^_^ Server is running!' });
 });
+
+// Error Handling Middleware
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
