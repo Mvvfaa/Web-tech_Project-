@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 
@@ -17,11 +18,18 @@ mongoose.connect(process.env.MONGODB_URI)
 const categoryRoutes = require('./routes/categories');
 const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
+const mediaRoutes = require('./routes/media');
+const searchRoutes = require('./routes/search');
 
 // API Routes
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/media', mediaRoutes);
+app.use('/api/search', searchRoutes);
+
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Test Route
 app.get('/api/test', (req, res) => {
