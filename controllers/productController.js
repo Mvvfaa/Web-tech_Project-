@@ -1,4 +1,6 @@
 const Product = require('../models/Product');
+const path = require('path');
+const fs = require('fs');
 
 // Get all products
 exports.getAllProducts = async (req, res) => {
@@ -51,9 +53,14 @@ exports.getProduct = async (req, res) => {
   }
 };
 
-// Create product
 exports.createProduct = async (req, res) => {
   try {
+    // If using multipart/form-data, multer places file on req.file
+    if (req.file) {
+      // Build public URL if serving local uploads
+      const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      req.body.image = imageUrl;
+    }
     const product = await Product.create(req.body);
     res.status(201).json({
       success: true,
@@ -70,6 +77,53 @@ exports.createProduct = async (req, res) => {
     });
   }
 };
+
+
+// Delete product (soft delete) with optional image cleanup
+exports.deleteProduct = async (req, res) => {
+  try {
+    // Soft-delete product
+    const product = await Product.findOneAndUpdate(
+      { _id: req.params.id, isActive: true },
+      { isActive: false },
+      { new: true }
+    );
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found'
+      });
+    }
+    // Optional: cleanup local image file when product deleted
+    // Only try removal if product.image is a local /uploads URL (not http(s) to a remote cloud)
+    try {
+      if (product.image && product.image.includes('/uploads/')) {
+        const filename = product.image.split('/uploads/').pop();
+        const filepath = path.join(__dirname, '..', 'uploads', filename);
+        if (fs.existsSync(filepath)) {
+          fs.unlinkSync(filepath);
+        }
+      }
+    } catch (cleanupErr) {
+      // Log cleanup error but don't fail deletion
+      console.warn('Image cleanup failed:', cleanupErr.message);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully'
+    });
+  } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'Invalid product ID format' });
+    }
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 
 // Update product
 exports.updateProduct = async (req, res) => {
@@ -105,30 +159,30 @@ exports.updateProduct = async (req, res) => {
 };
 
 // Delete product (soft delete)
-exports.deleteProduct = async (req, res) => {
-  try {
-    const product = await Product.findOneAndUpdate(
-      { _id: req.params.id, isActive: true },
-      { isActive: false },
-      { new: true }
-    );
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found'
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: 'Product deleted successfully'
-    });
-  } catch (error) {
-    if (error.name === 'CastError') {
-      return res.status(400).json({ success: false, message: 'Invalid product ID format' });
-    }
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-};
+// exports.deleteProduct = async (req, res) => {
+//   try {
+//     const product = await Product.findOneAndUpdate(
+//       { _id: req.params.id, isActive: true },
+//       { isActive: false },
+//       { new: true }
+//     );
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Product not found'
+//       });
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: 'Product deleted successfully'
+//     });
+//   } catch (error) {
+//     if (error.name === 'CastError') {
+//       return res.status(400).json({ success: false, message: 'Invalid product ID format' });
+//     }
+//     res.status(500).json({
+//       success: false,
+//       message: error.message
+//     });
+//   }
+// };
