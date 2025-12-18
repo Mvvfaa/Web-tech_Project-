@@ -279,11 +279,22 @@
       }
     })(); -->
 
+  <script>
+    (function () {
+    // If opened via file:// or another origin, fall back to localhost:3000
+    var fromFile = location.protocol === 'file:';
+    var sameOriginBase = '/api';
+    var fallbackBase = 'http://localhost:3000/api';
+    window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+  
+    
     AOS.init({
       duration: 800,
       easing: 'ease-in-out',
       once: true,
     });
+
   </script>
 
   <script src="assets/details-image.js"></script>

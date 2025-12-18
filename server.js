@@ -4,16 +4,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const errorHandler = require('./middleware/errorHandler');
-const authRoutes = require('./routes/auth');
 
 const app = express();
 
-// Middleware
+// Serve static frontend
 app.use(express.static(path.join(__dirname, 'Frontend (Candelco.)')));
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/auth', authRoutes);
-
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -26,6 +25,7 @@ const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
 const mediaRoutes = require('./routes/media');
 const searchRoutes = require('./routes/search');
+const authRoutes = require('./routes/auth');
 
 // API Routes
 app.use('/api/categories', categoryRoutes);
@@ -33,8 +33,9 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/auth', authRoutes);
 
-// Serve uploaded files
+// Serve uploaded files once (remove duplicate)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Test Route
@@ -42,8 +43,7 @@ app.get('/api/test', (req, res) => {
   res.json({ message: '^_^ Server is running!' });
 });
 
-// Error Handling Middleware
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Error Handling Middleware (last)
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;

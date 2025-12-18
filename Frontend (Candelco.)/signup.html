@@ -26,6 +26,43 @@
       }
     }
   </script>
+
+  <script>
+    API_BASE = '/api';
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirmPassword').value;
+
+    if (password !== confirm) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    try {
+      const res = await fetch(API_BASE + '/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        alert(json.message || 'Signup failed');
+        return;
+      }
+      const token = (json.data && json.data.token) || json.token;
+      if (token) localStorage.setItem('token', token);
+      window.location.href = 'create-product.html';
+    } catch (err) {
+      alert('Network error. Please try again.');
+    }
+    });
+  </script>
+
   <style>
     .scrolling-text{
         display:inline-block;
@@ -213,6 +250,16 @@
       </div>
     </div>
   </footer>
+
+    <script>
+        (function () {
+        // If opened via file:// or another origin, fall back to localhost:3000
+        var fromFile = location.protocol === 'file:';
+        var sameOriginBase = '/api';
+        var fallbackBase = 'http://localhost:3000/api';
+        window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+        })();
+    </script>  
 
   <script>
     const API_BASE = 'http://localhost:3000/api';

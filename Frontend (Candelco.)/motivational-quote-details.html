@@ -229,6 +229,16 @@
   </footer>
 
   <script>
+    (function () {
+    // If opened via file:// or another origin, fall back to localhost:3000
+    var fromFile = location.protocol === 'file:';
+    var sameOriginBase = '/api';
+    var fallbackBase = 'http://localhost:3000/api';
+    window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+  </script>
+
+  <script>
     AOS.init({
       duration: 800,
       once: true

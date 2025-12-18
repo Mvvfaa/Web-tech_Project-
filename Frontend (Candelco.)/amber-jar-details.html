@@ -189,6 +189,16 @@
     </div>
   </footer>
 
+  <script>
+    (function () {
+    // If opened via file:// or another origin, fall back to localhost:3000
+    var fromFile = location.protocol === 'file:';
+    var sameOriginBase = '/api';
+    var fallbackBase = 'http://localhost:3000/api';
+    window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+  </script>
+
   <!-- Quantity increment/decrement behaviour -->
   <script>
     (function () {
@@ -266,6 +276,8 @@
         alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
       });
     })();
+
+
   </script>
 
   <script>
@@ -274,6 +286,7 @@
       easing: 'ease-in-out',
       once: true,
     });
+
   </script>
 
   <script src="assets/details-image.js"></script>

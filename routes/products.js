@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/upload');
+const auth = require('../middleware/auth');
+// const requireAdmin = require('../middleware/requireAdmin'); // optional
+
 const {
   getAllProducts,
   getProduct,
@@ -11,10 +14,11 @@ const {
 
 router.get('/', getAllProducts);
 router.get('/:id', getProduct);
-// Use upload.single('image') so createProduct receives req.file
-router.post('/', upload.single('image'), createProduct);
-// allow updating with a new image as well
-router.put('/:id', upload.single('image'), updateProduct);
-router.delete('/:id', deleteProduct);
+
+// Protected write routes
+router.post('/', auth, upload.single('image'), createProduct);
+// router.post('/', auth, requireAdmin, upload.single('image'), createProduct); // use this if admin-only
+router.put('/:id', auth, upload.single('image'), updateProduct);
+router.delete('/:id', auth, deleteProduct);
 
 module.exports = router;

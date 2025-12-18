@@ -390,6 +390,16 @@
 
     <script>
     (function () {
+    // If opened via file:// or another origin, fall back to localhost:3000
+    var fromFile = location.protocol === 'file:';
+    var sameOriginBase = '/api';
+    var fallbackBase = 'http://localhost:3000/api';
+    window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+    </script>
+
+    <script>
+    (function () {
       function updateCartBadge() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const count = cart.reduce((sum, item) => sum + item.qty, 0);
@@ -403,7 +413,7 @@
     function goToDetails(url) {
       window.location.href = url;
     }
-  </script>
+    </script>
 
 </body>
 </html>

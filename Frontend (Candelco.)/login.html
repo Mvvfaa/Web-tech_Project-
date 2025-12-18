@@ -6,6 +6,9 @@
   <title>Login - The Candle Co</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+
+    API_BASE = '/api';
+
     tailwind.config = {
       theme: {
         extend: {
@@ -25,6 +28,7 @@
         }
       }
     }
+
   </script>
   <style>
     .scrolling-text{display:inline-block;
@@ -203,6 +207,16 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function () {
+    // If opened via file:// or another origin, fall back to localhost:3000
+    var fromFile = location.protocol === 'file:';
+    var sameOriginBase = '/api';
+    var fallbackBase = 'http://localhost:3000/api';
+    window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+  </script>
 
   <script>
     (function cartBadge(){
