@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const errorHandler = require('./middleware/errorHandler');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'Frontend (Candelco.)')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/auth', authRoutes);
+
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
