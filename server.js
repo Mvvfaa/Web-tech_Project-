@@ -9,6 +9,7 @@ const app = express();
 
 // Serve static frontend
 app.use(express.static(path.join(__dirname, 'Frontend (Candelco.)')));
+app.use('/api/auth', require('./routes/auth'));
 
 // Middleware
 app.use(express.json());
