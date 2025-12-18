@@ -20,6 +20,16 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('^_^ MongoDB connected successfully'))
   .catch(err => console.log('X MongoDB connection error:', err));
 
+// capture raw body for debugging + keep normal parsing
+app.use(express.json({
+  verify: (req, res, buf) => {
+    // attach rawBody for later inspection (if any)
+    try { req.rawBody = buf.toString(); } catch (e) { req.rawBody = undefined; }
+  }
+}));
+
+app.use(express.urlencoded({ extended: true }));
+
 // Import Routes
 const categoryRoutes = require('./routes/categories');
 const productRoutes = require('./routes/products');

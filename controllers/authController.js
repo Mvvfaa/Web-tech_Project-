@@ -8,43 +8,94 @@ function signToken(userId) {
   return jwt.sign({ id: userId }, secret, { expiresIn });
 }
 
-// POST /api/auth/register
 exports.register = async (req, res) => {
+  console.log('--- register called ---');
+  console.log('content-type:', req.headers['content-type']);
+  console.log('raw req.body ===', req.body);
+  console.log('req.rawBody ===', req.rawBody);
+
+  // Fallback: if express.json didn't parse body, try parsing rawBody (temporary)
+  if ((req.body === undefined || Object.keys(req.body).length === 0) && req.rawBody) {
+    try {
+      req.body = JSON.parse(req.rawBody);
+      console.log('parsed req.rawBody into req.body:', req.body);
+    } catch (err) {
+      console.warn('Failed to parse req.rawBody:', err.message);
+    }
+  }
+
   try {
     let { name, email, password } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ success: false, message: 'Name, email, and password are required' });
     }
-
     email = String(email).toLowerCase().trim();
 
     const exists = await User.findOne({ email });
     if (exists) {
       return res.status(400).json({ success: false, message: 'Email already in use' });
     }
-
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(String(password), salt);
-
     const user = await User.create({ name, email, password: hash });
-
     const token = signToken(user._id);
     res.status(201).json({
-      success: true,
-      message: 'Account created successfully',
-      data: {
-        token,
-        user: { id: user._id, name: user.name, email: user.email, role: user.role }
-      }
+        success: true,
+        message: 'Account created successfully',
+        data: {
+            token,
+            user: { id: user._id, name: user.name, email: user.email, role: user.role }
+        }
     });
   } catch (err) {
     // Handle duplicate key (unique email)
     if (err && err.code === 11000) {
-      return res.status(400).json({ success: false, message: 'Email already in use' });
+        return res.status(400).json({ success: false, message: 'Email already in use' });
     }
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+// POST /api/auth/register
+// exports.register = async (req, res) => {
+//   try {
+//     console.log('--- register called ---');
+//     console.log('content-type:', req.headers['content-type']);
+//     console.log('raw req.body ===', req.body);
+//     let { name, email, password } = req.body;
+//     if (!name || !email || !password) {
+//       return res.status(400).json({ success: false, message: 'Name, email, and password are required' });
+//     }
+
+//     email = String(email).toLowerCase().trim();
+
+//     const exists = await User.findOne({ email });
+//     if (exists) {
+//       return res.status(400).json({ success: false, message: 'Email already in use' });
+//     }
+
+//     const salt = await bcrypt.genSalt(10);
+//     const hash = await bcrypt.hash(String(password), salt);
+
+//     const user = await User.create({ name, email, password: hash });
+
+//     const token = signToken(user._id);
+//     res.status(201).json({
+//       success: true,
+//       message: 'Account created successfully',
+//       data: {
+//         token,
+//         user: { id: user._id, name: user.name, email: user.email, role: user.role }
+//       }
+//     });
+//   } catch (err) {
+//     // Handle duplicate key (unique email)
+//     if (err && err.code === 11000) {
+//       return res.status(400).json({ success: false, message: 'Email already in use' });
+//     }
+//     res.status(500).json({ success: false, message: err.message });
+//   }
+// };
 
 // POST /api/auth/login
 exports.login = async (req, res) => {
