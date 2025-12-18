@@ -27,41 +27,50 @@
     }
   </script>
 
-  <script>
-    API_BASE = '/api';
 
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+<script>
+  // Use same-origin API; ensure your site is served at http://localhost:3000
+  API_BASE = '/api';
 
-    const name = document.getElementById('fullName').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirm = document.getElementById('confirmPassword').value;
+//   document.getElementById('signupForm').addEventListener('submit', async (e) => {
+//     e.preventDefault();
 
-    if (password !== confirm) {
-      alert('Passwords do not match!');
-      return;
-    }
+//     // Note: your form field ids in signup.html are: fullName, email, password, confirmPassword
+//     const name = document.getElementById('fullName').value.trim();
+//     const email = document.getElementById('email').value.trim();
+//     const password = document.getElementById('password').value;
+//     const confirm = document.getElementById('confirmPassword').value;
 
-    try {
-      const res = await fetch(API_BASE + '/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        alert(json.message || 'Signup failed');
-        return;
-      }
-      const token = (json.data && json.data.token) || json.token;
-      if (token) localStorage.setItem('token', token);
-      window.location.href = 'create-product.html';
-    } catch (err) {
-      alert('Network error. Please try again.');
-    }
-    });
-  </script>
+//     if (password !== confirm) {
+//       alert('Passwords do not match!');
+//       return;
+//     }
+
+//     try {
+//       const res = await fetch(API_BASE + '/auth/register', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ name, email, password }) // <-- sends `name`, `email`, `password`
+//       });
+
+//       const json = await res.json();
+
+//       if (!res.ok) {
+//         alert(json.message || 'Signup failed');
+//         return;
+//       }
+
+//       const token = json.data?.token || json.token;
+//       if (token) localStorage.setItem('token', token);
+//       alert('Account created — redirecting to create-product...');
+//       window.location.href = 'create-product.html';
+//     } catch (err) {
+//       console.error('Signup fetch error', err);
+//       alert('Network error. Please try again.');
+//     }
+//   });
+// </script>
+
 
   <style>
     .scrolling-text{
@@ -251,19 +260,70 @@
     </div>
   </footer>
 
-    <script>
-        (function () {
-        // If opened via file:// or another origin, fall back to localhost:3000
-        var fromFile = location.protocol === 'file:';
-        var sameOriginBase = '/api';
-        var fallbackBase = 'http://localhost:3000/api';
-        window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
-        })();
-    </script>  
-
+    <!-- API base resolver (safe for file:// fallback) -->
   <script>
-    const API_BASE = 'http://localhost:3000/api';
+    (function () {
+      var fromFile = location.protocol === 'file:';
+      var sameOriginBase = '/api';
+      var fallbackBase = 'http://localhost:3000/api';
+      window.API_BASE = fromFile ? fallbackBase : sameOriginBase;
+    })();
+  </script>
+
+  <!-- Signup handler (place AFTER the form) -->
+  <script>
+    const API_BASE = window.API_BASE || '/api';
     const alertBox = document.getElementById('signupAlert');
+
+    function showAlert(msg, ok = false) {
+      alertBox.textContent = msg;
+      alertBox.className = 'mb-4 p-3 rounded-lg text-sm ' + (ok ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800');
+      alertBox.classList.remove('hidden');
+    }
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.classList.add('hidden');
+
+      // IDs in this page: name, email, password, confirm
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+
+      if (password !== confirm) {
+        return showAlert('Passwords do not match');
+      }
+
+      try {
+        const res = await fetch(API_BASE + '/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          return showAlert(json.message || 'Signup failed');
+        }
+
+        const token = json.data?.token || json.token;
+        if (token) localStorage.setItem('token', token);
+        showAlert('Account created! Redirecting...', true);
+        setTimeout(() => { window.location.href = 'create-product.html'; }, 600);
+      } catch (err) {
+        console.error('Signup fetch error', err);
+        showAlert('Network error. Please try again.');
+      }
+    });
+  </script>
+
+
+
+  <!-- <script>
+    API_BASE = 'http://localhost:3000/api';
+    alertBox = document.getElementById('signupAlert');
     function showAlert(msg, ok=false){
       alertBox.textContent = msg;
       alertBox.className = 'mb-4 p-3 rounded-lg text-sm ' + (ok ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800');
@@ -292,6 +352,7 @@
         setTimeout(()=>{ window.location.href = 'create-product.html'; }, 600);
       }catch(err){ showAlert('Network error. Please try again.'); }
     });
-  </script>
+  </script> -->
+
 </body>
 </html>
