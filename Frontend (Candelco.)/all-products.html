@@ -221,6 +221,7 @@
     products.forEach((product, index) => {
       const card = document.createElement('div');
       card.className = 'product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500';
+      card.setAttribute('data-id', product.id);
       card.setAttribute('data-category', product.category);
       card.setAttribute('data-name', product.name);
       card.setAttribute('data-price', product.price.replace(',', ''));
@@ -288,81 +289,92 @@
 
   <!-- Quantity and Add to Cart Script -->
 <script>
-    (function () {
-      const dec = document.getElementById('qty-decrease');
-      const inc = document.getElementById('qty-increase');
-      const input = document.getElementById('qty-input');
-      const addBtn = document.getElementById('add-to-cart');
-      const MIN = 1;
-      const MAX = 99;
+(function () {
+  const dec = document.getElementById('qty-decrease');
+  const inc = document.getElementById('qty-increase');
+  const input = document.getElementById('qty-input');
+  const addBtn = document.getElementById('add-to-cart');
+  const MIN = 1;
+  const MAX = 99;
 
-      function setQty(n) {
-        let v = Number(n) || MIN;
-        v = Math.max(MIN, Math.min(MAX, Math.floor(v)));
-        input.value = v;
-      }
+  function setQty(n) {
+    let v = Number(n) || MIN;
+    v = Math.max(MIN, Math.min(MAX, Math.floor(v)));
+    if (input) input.value = v;
+  }
 
-      if (dec && inc && input) {
-        dec.addEventListener('click', () => setQty(Number(input.value) - 1));
-        inc.addEventListener('click', () => setQty(Number(input.value) + 1));
+  if (dec && inc && input) {
+    dec.addEventListener('click', () => setQty(Number(input.value) - 1));
+    inc.addEventListener('click', () => setQty(Number(input.value) + 1));
 
-        [dec, inc].forEach(btn => {
-          btn.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              btn.click();
-            }
-          });
-        });
-      }
-
-      addBtn?.addEventListener('click', () => {
-        const qty = Number(document.getElementById('qty-input')?.value) || 1;
-        
-        // Get product info from data attributes
-        const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
-        const productPrice = document.querySelector('[data-price]')?.getAttribute('data-price') || 'PKR 0';
-        const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
-        
-        // Get selected size/scent
-        const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
-        
-        // Get product image
-        const productImage = document.getElementById('product-image')?.src || '';
-        
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const cartItem = {
-          name: productName,
-          price: productPrice,
-          theme: productTheme,
-          qty: qty,
-          size: selectedSize,
-          image: productImage
-        };
-        
-        // Match by name AND size AND theme (different themes = different cart items)
-        const existingItem = cart.find(item => 
-          item.name === productName && 
-          item.size === selectedSize && 
-          item.theme === productTheme
-        );
-        if (existingItem) {
-          existingItem.qty += qty;
-        } else {
-          cart.push(cartItem);
+    [dec, inc].forEach(btn => {
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
         }
-        
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        const badge = document.getElementById('cart-count');
-        if (badge) {
-          const count = cart.reduce((sum, item) => sum + item.qty, 0);
-          badge.textContent = count;
-        }
-        
-        alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
       });
-    })();
+    });
+  }
+
+  addBtn?.addEventListener('click', () => {
+    const qty = Number(document.getElementById('qty-input')?.value) || 1;
+
+    // Prefer an explicit product-id element (on details page). Fall back to data attributes on a product-card or any element with data-id
+    const productId =
+      (document.getElementById('product-id') && document.getElementById('product-id').value) ||
+      (document.querySelector('.product-card') && document.querySelector('.product-card').dataset.id) ||
+      document.querySelector('[data-id]')?.getAttribute('data-id') ||
+      '';
+
+    const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
+    const productPriceRaw = document.querySelector('[data-price]')?.getAttribute('data-price') || '0';
+    const productPrice = Number(String(productPriceRaw).replace(/,/g, '')) || 0;
+    const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
+
+    const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
+    const productImage = document.getElementById('product-image')?.src || document.querySelector('img')?.src || '';
+
+    if (!productId) {
+      alert('Product id not found. Please open the product page to add to cart.');
+      return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItem = {
+      id: productId,      // product _id stored here
+      name: productName,
+      price: productPrice,
+      theme: productTheme,
+      qty: qty,
+      size: selectedSize,
+      image: productImage
+    };
+
+    // Match by id + size + theme
+    const existingItem = cart.find(item =>
+      item.id === cartItem.id &&
+      item.size === cartItem.size &&
+      item.theme === cartItem.theme
+    );
+
+    if (existingItem) {
+      existingItem.qty += qty;
+    } else {
+      cart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    const badge = document.getElementById('cart-count');
+    if (badge) {
+      const count = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
+      badge.textContent = count;
+    }
+
+    alert('Added ' + qty + ' ' + productName + ' (' + productTheme + ' - ' + selectedSize + ') to cart.');
+  });
+  })();
   </script>
 
 <script src="assets/js/details-image.js"></script>

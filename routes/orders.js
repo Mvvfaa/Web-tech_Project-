@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth'); // existing auth middleware
 const {
   getAllOrders,
   getOrder,
@@ -10,7 +11,8 @@ const {
 
 router.get('/', getAllOrders);
 router.get('/:id', getOrder);
-router.post('/', createOrder);
+// protect create so we know who placed it
+router.post('/', auth, createOrder);
 router.put('/:id', updateOrder);
 router.delete('/:id', deleteOrder);
 

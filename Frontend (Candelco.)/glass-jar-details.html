@@ -154,6 +154,33 @@
     </div>
     <!-- Product Details -->
     <div>
+
+      <!-- add a hidden input somewhere in the page -->
+<input type="hidden" id="product-id" value="">
+
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+
+    // Wait for products to load (products-api.js provides getProducts)
+    getProducts().then(products => {
+      const product = products.find(p => String(p.id) === String(id));
+      if (!product) return; // show not found if desired
+
+      // Fill page with product data...
+      // e.g. document.getElementById('product-title').textContent = product.displayName;
+
+      // Expose id for add-to-cart logic
+      document.getElementById('product-id').value = product.id;
+
+      // Optionally set a data attribute on a wrapper element:
+      // document.getElementById('product-wrapper').dataset.id = product.id;
+    });
+  })();
+</script>
+
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Glass Jar Candles</h1>
       <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Glass Jar Candles" data-price="PKR 2,500">PKR 2,500</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>

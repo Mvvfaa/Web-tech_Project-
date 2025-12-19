@@ -42,6 +42,11 @@ const orderSchema = new mongoose.Schema(
       unique: true,
       required: true
     },
+    user: { // <-- new: reference to the User who placed the order
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     items: [orderItemSchema],
     subtotal: {
       type: Number,
