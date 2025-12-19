@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout — CandleCo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-brand-cream font-serif text-brand-gray">
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto p-4 flex justify-between items-center">
+      <a href="index.html" class="font-bold text-xl text-brand-brown">The Candle Co</a>
+      <a href="cart.html" class="text-sm text-brand-sage">Back to cart</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Checkout</h1>
+
+    <section id="cartSummary" class="mb-6 bg-white p-4 rounded-lg shadow-sm">
+      <h2 class="font-semibold mb-2">Your cart</h2>
+      <div id="cartItems" class="space-y-3"></div>
+      <div class="mt-4 text-right">
+        <span class="font-semibold">Subtotal:</span>
+        <span id="subtotalDisplay" class="ml-2 font-bold">PKR 0</span>
+      </div>
+    </section>
+
+    <form id="checkoutForm" class="bg-white p-6 rounded-lg shadow-sm">
+      <h2 class="font-semibold mb-4">Shipping & contact</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input id="cust-name" required placeholder="Full name" class="p-2 border rounded" />
+        <input id="cust-email" type="email" required placeholder="Email" class="p-2 border rounded" />
+        <input id="cust-phone" required placeholder="Phone" class="p-2 border rounded" />
+        <input id="addr-street" required placeholder="Street address" class="p-2 border rounded" />
+        <input id="addr-city" required placeholder="City" class="p-2 border rounded" />
+        <input id="addr-postal" required placeholder="Postal code" class="p-2 border rounded" />
+        <input id="addr-country" placeholder="Country (default Pakistan)" class="p-2 border rounded" />
+      </div>
+
+      <div class="mt-4">
+        <h3 class="font-semibold mb-2">Payment method</h3>
+        <label class="mr-4">
+          <input type="radio" name="paymentMethod" value="Cash on Delivery" checked /> Cash on Delivery
+        </label>
+        <label class="mr-4">
+          <input type="radio" name="paymentMethod" value="Credit Card" /> Credit Card
+        </label>
+        <label>
+          <input type="radio" name="paymentMethod" value="Bank Transfer" /> Bank Transfer
+        </label>
+      </div>
+
+      <div class="mt-4">
+        <label class="block mb-1">Notes (optional)</label>
+        <textarea id="notes" rows="3" class="w-full p-2 border rounded"></textarea>
+      </div>
+
+      <div class="mt-6 flex justify-between items-center">
+        <div>
+          <span class="text-sm text-gray-600">Shipping cost:</span>
+          <strong id="shippingCostDisplay" class="ml-2">PKR 250</strong>
+        </div>
+        <div>
+          <button id="placeOrderBtn" type="submit" class="px-6 py-2 bg-brand-sage text-white rounded-full font-bold">Place Order</button>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <script src="assets/js/checkout.js"></script>
+</body>
+</html>

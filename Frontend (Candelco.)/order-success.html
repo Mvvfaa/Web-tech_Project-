@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Placed — CandleCo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-brand-cream font-serif text-brand-gray">
+  <main class="max-w-3xl mx-auto p-8 text-center">
+    <h1 class="text-3xl font-bold mb-4">Thank you — your order is placed!</h1>
+    <p id="orderInfo" class="mb-6"></p>
+    <a href="index.html" class="inline-block px-6 py-2 bg-brand-sage text-white rounded-full">Continue shopping</a>
+  </main>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const order = params.get('order') || '';
+      const el = document.getElementById('orderInfo');
+      if (order) {
+        el.innerHTML = 'Your order number is <strong>' + order + '</strong>. We sent a confirmation to your email if provided.';
+      } else {
+        el.textContent = 'We received your order. You can view it in your account orders.';
+      }
+    })();
+  </script>
+</body>
+</html>
