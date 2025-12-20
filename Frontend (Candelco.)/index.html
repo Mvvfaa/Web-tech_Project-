@@ -142,12 +142,12 @@
       <!-- Icons -->
       <div class="flex items-center space-x-4 md:space-x-6">
         <!-- Profile Icon -->
-        <a href="login.html" aria-label="Profile" class="text-brand-sage hover:text-brand-brown transition">
+        <button id="profileBtn" aria-label="Profile" class="text-brand-sage hover:text-brand-brown transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
           </svg>
-        </a>
+        </button>
         <!-- Cart Icon -->
         <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,7 +260,7 @@
 
     <!-- Amber Jar Candles -->
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500" data-aos="zoom-in" data-aos-delay="500">
-      <img src="Amber.jpg" class="w-full h-64 object-cover">
+      <img src="images/AmberJ.jpg" class="w-full h-64 object-cover">
       <div class="p-6 text-center">
         <h3 class="text-xl font-bold">Amber Jar Candles</h3>
         <p class="text-brand-brown font-semibold mb-2">PKR 2,500</p>
@@ -382,6 +382,16 @@
       updateCartBadge();
       window.addEventListener('storage', updateCartBadge);
     })();
+
+    // Profile button redirection based on role
+    document.getElementById('profileBtn')?.addEventListener('click', () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user.role === 'admin') {
+        window.location.href = 'create-product.html';
+      } else {
+        window.location.href = 'profile.html';
+      }
+    });
   </script>
 
 </body>

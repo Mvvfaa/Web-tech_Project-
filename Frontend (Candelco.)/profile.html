@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — The Candle Co</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-cream': '#f7f5f3',
+            'brand-light': '#fefcfa',
+            'brand-brown': '#8b7355',
+            'brand-sage': '#6b8e5a',
+            'brand-sage-dark': '#5a7a4a',
+            'brand-pink': '#d4a5a5',
+            'brand-peach': '#f4a5a5',
+            'brand-gray': '#2c2c2c',
+            'brand-light-gray': '#5a5a5a',
+            'brand-section': '#f2f0ed'
+          },
+          fontFamily: { 'serif': ['Georgia','serif'] }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .scrolling-text { display:inline-block; padding-left:100%; animation:scroll-text 20s linear infinite; }
+    @keyframes scroll-text {0%{transform:translateX(0%);}100%{transform:translateX(-100%);}}
+    .group:hover ul, .group:focus-within ul { opacity:1 !important; pointer-events:auto !important; }
+    .status-pending { color: #f59e0b; font-weight: bold; }
+    .status-confirmed { color: #3b82f6; font-weight: bold; }
+    .status-shipped { color: #8b5cf6; font-weight: bold; }
+    .status-delivered { color: #10b981; font-weight: bold; }
+    .status-cancelled { color: #ef4444; font-weight: bold; }
+  </style>
+</head>
+
+<body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
+
+  <!-- top delivery bar -->
+  <div class="bg-brand-peach text-white overflow-hidden whitespace-nowrap py-2 text-sm font-medium">
+    <p class="scrolling-text">● Product Delivery in 8-10 Working Days</p>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-brand-light shadow-lg sticky top-0 z-50" style="box-shadow: 0 2px 10px rgba(139, 115, 85, 0.1);">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-2 md:space-x-3">
+        <img src="images/logo.jpg" 
+        alt="The Candle Co Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
+        <span class="hidden sm:inline-block text-lg md:text-3xl font-bold text-brand-brown">The Candle Co</span>
+      </a>
+      <!-- Navigation -->
+      <ul class="hidden md:flex space-x-8 items-center relative">
+        <li><a href="index.html#home" class="hover:text-brand-sage transition">Home</a></li>
+        <li><a href="index.html#story" class="hover:text-brand-sage transition">Our Story</a></li>
+        <li><a href="index.html#products" class="hover:text-brand-sage transition">Products</a></li>
+        <li class="relative group">
+          <a href="#categories" class="hover:text-brand-sage transition flex items-center">
+            Categories
+            <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </a>
+          <ul class="absolute left-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-opacity duration-200 z-50">
+            <li><a href="all-products.html?category=tin" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-t-lg">Silver Tin Candles</a></li>
+            <li><a href="all-products.html?category=glass" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Glass Jar Candles</a></li>
+            <li><a href="all-products.html?category=frame" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Frames</a></li>
+            <li><a href="all-products.html?category=amber" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition">Amber Jar Candles</a></li>
+            <li><a href="all-products.html" class="block px-5 py-3 text-brand-gray hover:bg-brand-sage hover:text-white transition rounded-b-lg">All Products</a></li>
+          </ul>
+        </li>
+        <li><a href="#contact" class="hover:text-brand-sage transition">Contact</a></li>
+      </ul>
+
+      <!-- Icons -->
+      <div class="flex items-center space-x-4 md:space-x-6">
+        <button id="profileBtn" aria-label="Profile" class="text-brand-sage hover:text-brand-brown transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z" />
+          </svg>
+        </button>
+        <a href="cart.html" aria-label="Cart" class="text-brand-sage hover:text-brand-brown transition relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
+          </svg>
+         <span id="cart-count" class="absolute -top-2 -right-2 bg-brand-peach text-brand-gray text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Profile Content -->
+  <main class="py-12 px-4 md:px-8 max-w-5xl mx-auto">
+    <!-- User Info Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h1 class="text-3xl font-bold mb-6 text-brand-brown">My Profile</h1>
+      
+      <div id="userInfo" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Will be populated by JS -->
+      </div>
+
+      <div class="mt-8 flex gap-3">
+        <button id="logoutBtn" class="px-6 py-2 bg-brand-peach text-white rounded-full hover:bg-pink-500 transition font-semibold">Logout</button>
+        <a href="all-products.html" class="px-6 py-2 border border-brand-gray text-center rounded-full hover:bg-brand-section transition">Continue Shopping</a>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-6 text-brand-brown">Your Orders</h2>
+      
+      <div id="ordersContainer" class="space-y-4">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12">
+    <div class="bg-brand-gray text-white py-10 shadow-lg">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-6 text-brand-brown">Get in Touch</h2>
+        <p class="mb-2">📞 +92 308 4449344</p>
+        <p class="mb-4">📍 Sector C, Askari 11, Lahore, Pakistan</p>
+        <a href="https://www.instagram.com/thecandleco.pk_/" target="_blank" class="inline-block mt-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-8 h-8 hover:text-pink-400 transition duration-300">
+            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="bg-brand-brown text-white py-6">
+      <div class="container mx-auto flex items-center justify-center">
+        <p class="text-sm">&copy; 2025 CandleCo. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Check if user is logged in and hydrate user info if needed
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to view your profile');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      let user = {};
+      try {
+        user = JSON.parse(localStorage.getItem('user') || '{}');
+      } catch (e) {
+        user = {};
+      }
+
+      const hasId = !!(user && (user.id || user._id));
+      if (!hasId) {
+        try {
+          const res = await fetch('/api/auth/me', {
+            headers: { 'Authorization': 'Bearer ' + token }
+          });
+          if (res.ok) {
+            const json = await res.json();
+            user = json.data || {};
+            localStorage.setItem('user', JSON.stringify(user));
+          }
+        } catch (err) {
+          console.warn('Could not fetch current user:', err);
+        }
+      }
+
+      const finalHasId = !!(user && (user.id || user._id));
+      if (!finalHasId) {
+        alert('Please log in to view your profile');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Load and display user info
+      displayUserInfo(user);
+
+      // Load and display orders
+      loadOrders(token);
+
+      // Update cart badge
+      updateCartBadge();
+    });
+
+    function displayUserInfo(user) {
+      const userInfoEl = document.getElementById('userInfo');
+      userInfoEl.innerHTML = `
+        <div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-600">Name</label>
+            <div class="text-lg font-semibold text-brand-gray">${user.name || 'N/A'}</div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-600">Email</label>
+            <div class="text-lg font-semibold text-brand-gray">${user.email || 'N/A'}</div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-600">Phone</label>
+            <div class="text-lg font-semibold text-brand-gray">${user.phone || 'N/A'}</div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-600">Joined</label>
+            <div class="text-lg font-semibold text-brand-gray">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadOrders(token) {
+      const ordersContainer = document.getElementById('ordersContainer');
+      
+      try {
+        const res = await fetch('/api/orders/my-orders', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        if (!res.ok) {
+          ordersContainer.innerHTML = '<div class="text-gray-500 text-center py-8">Failed to load orders.</div>';
+          return;
+        }
+
+        const json = await res.json();
+        const orders = json.data || [];
+
+        if (orders.length === 0) {
+          ordersContainer.innerHTML = '<div class="text-gray-500 text-center py-8">You have no orders yet.</div>';
+          return;
+        }
+
+        ordersContainer.innerHTML = orders.map(order => `
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="font-bold text-brand-brown text-lg">${order.orderNumber}</h3>
+                <p class="text-sm text-gray-600">${new Date(order.createdAt).toLocaleDateString()}</p>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-600">Total</div>
+                <div class="font-bold text-lg text-brand-brown">PKR ${Number(order.total || 0).toLocaleString()}</div>
+              </div>
+            </div>
+
+            <div class="mb-4 pb-4 border-b">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-gray-600 mb-2"><strong>${order.items?.length || 0}</strong> item(s)</p>
+                  ${order.items?.slice(0, 2).map(item => `
+                    <p class="text-sm text-gray-700">• ${item.name} (x${item.quantity})</p>
+                  `).join('')}
+                  ${order.items?.length > 2 ? `<p class="text-sm text-gray-700">+ ${order.items.length - 2} more</p>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-600">Status</p>
+                <p class="font-semibold text-brand-gray">${order.status}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600">Payment</p>
+                <p class="font-semibold text-brand-gray">${order.paymentMethod}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600">Payment Status</p>
+                <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+                  order.paymentStatus === 'Completed' ? 'bg-green-100 text-green-800' :
+                  order.paymentStatus === 'Failed' ? 'bg-red-100 text-red-800' :
+                  'bg-yellow-100 text-yellow-800'
+                }">
+                  ${order.paymentStatus}
+                </span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading orders:', err);
+        ordersContainer.innerHTML = '<div class="text-gray-500 text-center py-8">Error loading orders.</div>';
+      }
+    }
+
+    function updateCartBadge() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
+      const badge = document.getElementById('cart-count');
+      if (badge) badge.textContent = count;
+    }
+
+    // Logout handler
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('cart');
+      alert('Logged out successfully');
+      window.location.href = 'index.html';
+    });
+
+    // Profile button redirection based on role
+    document.getElementById('profileBtn')?.addEventListener('click', () => {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const token = localStorage.getItem('token');
+      if (user && user.role === 'admin') {
+        window.location.href = 'create-product.html';
+      } else if (token) {
+        window.location.href = 'profile.html';
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+
+</body>
+</html>

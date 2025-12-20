@@ -7,10 +7,12 @@ const {
   getOrder,
   createOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
+  getMyOrders
 } = require('../controllers/orderController');
 
 router.get('/', getAllOrders);
+router.get('/my-orders', auth, getMyOrders); // get authenticated user's orders
 router.get('/:id', getOrder);
 router.post('/', auth, createOrder); // protect create with auth
 router.put('/:id', auth, updateOrder);

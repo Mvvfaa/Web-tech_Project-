@@ -145,3 +145,21 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Get authenticated user's orders
+exports.getMyOrders = async (req, res) => {
+  try {
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
+
+    const orders = await Order.find({ user: req.user._id })
+      .populate('items.product', 'name price')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, data: orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
