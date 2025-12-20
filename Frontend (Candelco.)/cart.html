@@ -26,6 +26,7 @@
       }
     }
   </script>
+
   <script src="assets/js/details-image.js"></script>
 
   <style>
@@ -34,6 +35,10 @@
     .group:hover ul, .group:focus-within ul { opacity:1 !important; pointer-events:auto !important; }
   </style>
 </head>
+
+  <script>window.API_BASE = 'http://localhost:3000/api';</script>
+  <script src="assets/data/products-api.js"></script>
+
 <body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
 
   <!-- top delivery bar -->
@@ -281,7 +286,18 @@
       };
 
       checkoutBtn?.addEventListener('click', () => {
-        window.location.href = 'checkout.html';
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        if (!token) {
+          // User not logged in, ask to log in
+          const proceed = confirm('You need to log in to proceed to checkout. Would you like to log in now?');
+          if (proceed) {
+            window.location.href = 'login.html';
+          }
+        } else {
+          // User is logged in, proceed to checkout
+          window.location.href = 'checkout.html';
+        }
       });
 
       renderCart();

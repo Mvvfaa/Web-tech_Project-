@@ -50,6 +50,10 @@
   </style>
 
 </head>
+
+  <script>window.API_BASE = 'http://localhost:3000/api';</script>
+  <script src="assets/data/products-api.js"></script>
+
 <body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
 
   <!-- Header -->
@@ -182,7 +186,7 @@
 </script>
 
       <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Glass Jar Candles</h1>
-      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Glass Jar Candles" data-price="PKR 2,500">PKR 2,500</p></div>
+      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Glass Jar Candles" data-price="PKR 2,500" data-product-id="">PKR 2,500</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
       <div class="mb-4">
         <p class="mb-2 font-semibold">Choose Scent:</p>
@@ -297,13 +301,73 @@
         });
       }
 
-      addBtn?.addEventListener('click', () => {
+      // Badge updater
+      (function () {
+        function updateCartBadge() {
+          const cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const count = cart.reduce((sum, item) => sum + item.qty, 0);
+          const badge = document.getElementById('cart-count');
+          if (badge) badge.textContent = count;
+        }
+        updateCartBadge();
+        window.addEventListener('storage', updateCartBadge);
+      })();
+
+      // Theme and product loading
+      const urlParams = new URLSearchParams(window.location.search);
+      const theme = urlParams.get('theme') || 'Classic';
+      const priceElement = document.querySelector('[data-price]');
+      if (priceElement) {
+        priceElement.setAttribute('data-theme', theme);
+      }
+
+      let productIdValue = '';
+
+      async function setProductId() {
+        const existing = document.querySelector('[data-product-id]')?.getAttribute('data-product-id');
+        if (existing) {
+          productIdValue = existing;
+          return productIdValue;
+        }
+        try {
+          const res = await fetch('/api/products');
+          if (res.ok) {
+            const json = await res.json();
+            const products = json.data || [];
+            // Match by name and theme - handle both "Classic Glass Jar Candles" and "Glass Jar Candles"
+            let product = products.find(p => 
+              (p.name === 'Glass Jar Candles' || p.name === 'Classic Glass Jar Candles' || p.displayName === 'Classic Glass Jar Candles') && (p.theme === theme || !p.theme || theme === 'Classic')
+            );
+            if (!product) {
+              product = products.find(p => (p.name === 'Glass Jar Candles' || p.name === 'Classic Glass Jar Candles' || p.displayName === 'Classic Glass Jar Candles'));
+            }
+            if (product && product._id) {
+              productIdValue = product._id;
+              if (priceElement) priceElement.setAttribute('data-product-id', product._id);
+              return productIdValue;
+            }
+          }
+        } catch (err) {
+          console.warn('Could not fetch product ID:', err);
+        }
+        return '';
+      }
+
+      // Prime productId on load
+      setProductId();
+
+      addBtn?.addEventListener('click', async () => {
         const qty = Number(document.getElementById('qty-input')?.value) || 1;
         
         // Get product info from data attributes
         const productName = document.querySelector('[data-name]')?.getAttribute('data-name') || 'Product';
         const productPrice = document.querySelector('[data-price]')?.getAttribute('data-price') || 'PKR 0';
         const productTheme = document.querySelector('[data-theme]')?.getAttribute('data-theme') || 'Classic';
+        const productId = productIdValue || await setProductId();
+        if (!productId) {
+          alert('Product is still loading. Please try again in a moment.');
+          return;
+        }
         
         // Get selected size/scent
         const selectedSize = document.querySelector('input[name="scent"]:checked')?.value || 'Not selected';
@@ -313,6 +377,7 @@
         
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const cartItem = {
+          productId: productId,
           name: productName,
           price: productPrice,
           theme: productTheme,
@@ -380,6 +445,31 @@
       if (priceElement) {
         priceElement.setAttribute('data-theme', theme);
       }
+
+      // Fetch product ID from API and set it
+      async function setProductId() {
+        try {
+          const res = await fetch('/api/products');
+          if (res.ok) {
+            const json = await res.json();
+            const products = json.data || [];
+            // Match by name and theme - handle both "Classic Glass Jar Candles" and "Glass Jar Candles"
+            let product = products.find(p => 
+              (p.name === 'Glass Jar Candles' || p.name === 'Classic Glass Jar Candles' || p.displayName === 'Classic Glass Jar Candles') && (p.theme === theme || !p.theme || theme === 'Classic')
+            );
+            if (!product) {
+              product = products.find(p => (p.name === 'Glass Jar Candles' || p.name === 'Classic Glass Jar Candles' || p.displayName === 'Classic Glass Jar Candles'));
+            }
+            if (product && product._id) {
+              if (priceElement) priceElement.setAttribute('data-product-id', product._id);
+              productIdValue = product._id;
+            }
+          }
+        } catch (err) {
+          console.warn('Could not fetch product ID:', err);
+        }
+      }
+      setProductId();
     })();
   </script>
 

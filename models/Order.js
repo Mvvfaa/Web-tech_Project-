@@ -40,7 +40,11 @@ const orderSchema = new mongoose.Schema(
     orderNumber: {
       type: String,
       unique: true,
-      required: true
+      required: true,
+      // default ensures validation passes before hooks run
+      default: function () {
+        return `ORD-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+      }
     },
     user: { // <-- new: reference to the User who placed the order
       type: mongoose.Schema.Types.ObjectId,
@@ -124,13 +128,12 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Generate order number before saving
-orderSchema.pre('save', async function(next) {
-  if (this.isNew) {
+// Generate order number before saving (fallback if default not set)
+orderSchema.pre('save', async function() {
+  if (this.isNew && !this.orderNumber) {
     const count = await mongoose.model('Order').countDocuments();
     this.orderNumber = `ORD-${Date.now()}-${count + 1}`;
   }
-  next();
 });
 
 module.exports = mongoose.model('Order', orderSchema);

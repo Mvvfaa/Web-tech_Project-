@@ -92,14 +92,21 @@
       return;
     }
 
-    // build items payload using productId from cart items (id)
+    // build items payload using productId from cart items
     const items = cart.map(ci => ({
-      productId: ci.id || ci.productId || ci._id, // support different keys
+      productId: ci.productId || ci.id || ci._id, // support different keys
       quantity: Number(ci.qty) || 1,
-      size: ci.size || '',
+      size: ci.size || ci.type || '', // support both size and type fields
       theme: ci.theme || ''
       // price is not trusted; server will compute using product.price
     }));
+
+    // guard: ensure every item has productId
+    const missingId = items.find(it => !it.productId);
+    if (missingId) {
+      alert('One or more items are missing product IDs. Please remove old cart items, re-add the products, and try again.');
+      return;
+    }
 
     const subtotal = Number(document.getElementById('cartItems').dataset.subtotal || 0);
     const shippingCost = SHIPPING_DEFAULT;
