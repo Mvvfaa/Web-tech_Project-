@@ -1,17 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Order Placed — CandleCo</title>
+  <meta charset="UTF-8">
+  <title>All Candle Categories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-cream': '#f7f5f3',
+            'brand-light': '#fefcfa',
+            'brand-brown': '#8b7355',
+            'brand-sage': '#6b8e5a',
+            'brand-sage-dark': '#5a7a4a',
+            'brand-pink': '#d4a5a5',
+            'brand-peach': '#f4a5a5',
+            'brand-gray': '#2c2c2c',
+            'brand-light-gray': '#5a5a5a',
+            'brand-section': '#f2f0ed'
+          },
+          fontFamily: {
+            'serif': ['Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .group:hover ul,
+    .group:focus-within ul {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+  </style>
 </head>
-<body class="bg-brand-cream font-serif text-brand-gray">
-  <main class="max-w-3xl mx-auto p-8 text-center">
-    <h1 class="text-3xl font-bold mb-4">Thank you — your order is placed!</h1>
-    <p id="orderInfo" class="mb-6"></p>
-    <a href="index.html" class="inline-block px-6 py-2 bg-brand-sage text-white rounded-full">Continue shopping</a>
+<body class="font-serif leading-relaxed text-brand-gray bg-brand-cream">
+
+  <!-- top delivery bar -->
+  <div class="bg-brand-peach text-white overflow-hidden whitespace-nowrap py-2 text-sm font-medium">
+    <p class="px-4">● Product Delivery in 8-10 Working Days</p>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-brand-light shadow-lg sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-2 md:space-x-3">
+        <img src="images/logo.jpg" alt="The Candle Co Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover">
+        <span class="hidden sm:inline-block text-lg md:text-3xl font-bold text-brand-brown">The Candle Co</span>
+      </a>
+      <div class="flex items-center space-x-4">
+        <a href="cart.html" class="text-sm text-brand-sage hover:text-brand-brown">Cart</a>
+        <a href="login.html" class="text-sm text-brand-sage hover:text-brand-brown">Profile</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-8 text-center">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h1 class="text-3xl font-bold mb-4 text-brand-brown">Thank you — your order is placed!</h1>
+      <p id="orderInfo" class="mb-6 text-lg"></p>
+
+      <div class="flex justify-center gap-4">
+        <a id="goHomeBtn" href="index.html" class="px-6 py-3 bg-brand-sage text-white rounded-full font-bold">Go to Home</a>
+        <a id="viewOrdersBtn" href="cart.html" class="px-6 py-3 border border-brand-gray rounded-full">Go to Cart</a>
+      </div>
+
+      <p class="text-sm text-gray-600 mt-4">You will be redirected to the homepage in <span id="redirectCountdown">5</span> seconds.</p>
+    </div>
   </main>
+
+  <!-- Footer -->
+  <footer class="mt-8">
+    <div class="bg-brand-gray text-white py-10 shadow-lg">
+      <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-6 text-brand-brown">Get in Touch</h2>
+        <p class="mb-2">📞 +92 308 4449344</p>
+        <p class="mb-4">📍 Sector C, Askari 11, Lahore, Pakistan</p>
+      </div>
+    </div>
+    <div class="bg-brand-brown text-white py-6">
+      <div class="container mx-auto flex items-center justify-center">
+        <p class="text-sm">&copy; 2025 CandleCo. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
     (function () {
@@ -19,10 +94,22 @@
       const order = params.get('order') || '';
       const el = document.getElementById('orderInfo');
       if (order) {
-        el.innerHTML = 'Your order number is <strong>' + order + '</strong>. We sent a confirmation to your email if provided.';
+        el.innerHTML = 'Your order number is <strong>' + order + '</strong>. We have sent a confirmation to your email if provided.';
       } else {
         el.textContent = 'We received your order. You can view it in your account orders.';
       }
+
+      // redirect to homepage after countdown (5s)
+      let seconds = 5;
+      const countdownEl = document.getElementById('redirectCountdown');
+      const timer = setInterval(() => {
+        seconds -= 1;
+        if (countdownEl) countdownEl.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          window.location.href = 'index.html';
+        }
+      }, 1000);
     })();
   </script>
 </body>

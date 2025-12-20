@@ -249,7 +249,7 @@
                 ${item.image ? `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">` : '<div class="w-20 h-20 bg-brand-section rounded flex items-center justify-center text-brand-light-gray">No Image</div>'}
                 <div>
                   <h3 class="font-bold text-lg text-brand-brown">${item.name}</h3>
-                  <p class="text-sm text-brand-light-gray" id="product-size-${index}"></p>
+                  <p class="text-sm text-brand-light-gray">Type: ${item.type || item.size || 'Not selected'}</p>
                   <p class="text-brand-light-gray">${item.price}</p>
                   <div class="mt-2 flex items-center gap-2">
                     <span class="text-sm text-brand-light-gray">Quantity:</span>
@@ -281,7 +281,7 @@
       };
 
       checkoutBtn?.addEventListener('click', () => {
-        alert('Checkout functionality coming soon! Thank you for your order.');
+        window.location.href = 'checkout.html';
       });
 
       renderCart();
@@ -402,7 +402,7 @@
               <div>
                 <h3 class="font-bold text-lg text-brand-brown">${item.name}</h3>
                 <p class="text-xs text-brand-peach font-semibold">${item.theme || 'Classic'}</p>
-                <p class="text-sm text-brand-light-gray">${item.size ? 'Size: ' + item.size : ''}</p>
+                <p class="text-sm text-brand-light-gray">${item.type ? 'Type: ' + item.type : (item.size ? 'Type: ' + item.size : '')}</p>
                 <p class="text-brand-light-gray">${item.price}</p>
                 <div class="mt-2 flex items-center gap-2">
                   <span class="text-sm text-brand-light-gray">Quantity:</span>

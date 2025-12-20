@@ -29,7 +29,8 @@
 
     let subtotal = 0;
     items.forEach(it => {
-      const itemSubtotal = (Number(it.price || 0) || 0) * (Number(it.qty) || 1);
+      const price = parseInt((it.price || '0').toString().replace(/\D/g, '')) || 0;
+      const itemSubtotal = price * (Number(it.qty) || 1);
       subtotal += itemSubtotal;
 
       const row = document.createElement('div');
@@ -39,7 +40,7 @@
           <img src="${it.image || 'images/placeholder.jpg'}" class="w-16 h-16 object-cover rounded" />
           <div>
             <div class="font-semibold">${it.name}</div>
-            <div class="text-sm text-gray-600">Size: ${it.size || '-' } | Theme: ${it.theme || '-'}</div>
+            <div class="text-sm text-gray-600">Type: ${it.type || it.size || '-' } | Theme: ${it.theme || '-'}</div>
             <div class="text-sm text-gray-600">Qty: ${it.qty}</div>
           </div>
         </div>
@@ -50,8 +51,11 @@
       container.appendChild(row);
     });
 
+    const total = subtotal + SHIPPING_DEFAULT;
+    
     document.getElementById('subtotalDisplay').textContent = formatPKR(subtotal);
     document.getElementById('shippingCostDisplay').textContent = formatPKR(SHIPPING_DEFAULT);
+    document.getElementById('totalDisplay').textContent = formatPKR(total);
     // store computed subtotal for use on submit
     container.dataset.subtotal = subtotal;
   }
