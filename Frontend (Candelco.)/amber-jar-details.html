@@ -156,8 +156,8 @@
   })();
 </script>
 
-      <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Amber Jar Candles</h1>
-      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Amber Jar Candles" data-price="PKR 2,500" data-product-id="">PKR 2,500</p></div>
+      <h1 id="product-title" class="text-4xl font-serif font-bold mb-4 text-brand-brown">Loading...</h1>
+      <div class="text-lg mb-2 font-semibold"><p id="product-price" class="text-2xl font-bold text-brand-brown" data-name="" data-price="" data-product-id="">Loading...</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
 
       <div class="mb-4">
@@ -283,11 +283,50 @@
       let productIdValue = '';
 
       async function setProductId() {
+        // First: Check localStorage for product data passed from all-products.html
+        const storedProduct = localStorage.getItem('currentProduct');
+        if (storedProduct) {
+          try {
+            const product = JSON.parse(storedProduct);
+            if (product && product._id) {
+              productIdValue = product._id;
+              
+              // Update page content with stored product data
+              const titleElement = document.getElementById('product-title');
+              if (titleElement) titleElement.textContent = product.displayName || product.name;
+              
+              const priceElement = document.getElementById('product-price');
+              if (priceElement) {
+                priceElement.textContent = `PKR ${product.price}`;
+                priceElement.setAttribute('data-name', product.displayName || product.name);
+                priceElement.setAttribute('data-price', `PKR ${product.price}`);
+                priceElement.setAttribute('data-product-id', product._id);
+              }
+              
+              // Update product image if available
+              const imgElement = document.getElementById('product-image');
+              if (imgElement && product.image) {
+                imgElement.src = product.image;
+                imgElement.alt = product.displayName || product.name;
+              }
+              
+              // Clear localStorage after use
+              localStorage.removeItem('currentProduct');
+              return productIdValue;
+            }
+          } catch (err) {
+            console.error('Could not parse stored product:', err);
+          }
+        }
+
+        // Fallback: Check if already set via DOM attribute
         const existing = document.querySelector('[data-product-id]')?.getAttribute('data-product-id');
         if (existing) {
           productIdValue = existing;
           return productIdValue;
         }
+
+        // Last resort: Fetch from API
         try {
           const res = await fetch('/api/products');
           if (res.ok) {

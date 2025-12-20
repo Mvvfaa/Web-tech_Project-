@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
         message: 'Account created successfully',
         data: {
             token,
-            user: { id: user._id, name: user.name, email: user.email, role: user.role }
+            user: { id: user._id, name: user.name, email: user.email, role: user.role, createdAt: user.createdAt }
         }
     });
   } catch (err) {
@@ -123,7 +123,7 @@ exports.login = async (req, res) => {
       message: 'Login successful',
       data: {
         token,
-        user: { id: user._id, name: user.name, email: user.email, role: user.role }
+        user: { id: user._id, name: user.name, email: user.email, role: user.role, createdAt: user.createdAt }
       }
     });
   } catch (err) {
@@ -138,7 +138,7 @@ exports.me = async (req, res) => {
     if (!u) return res.status(401).json({ success: false, message: 'Not authorized' });
     res.status(200).json({
       success: true,
-      data: { id: u._id, name: u.name, email: u.email, role: u.role }
+      data: { id: u._id, name: u.name, email: u.email, role: u.role, createdAt: u.createdAt }
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

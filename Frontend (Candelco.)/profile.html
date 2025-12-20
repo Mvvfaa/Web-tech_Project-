@@ -187,6 +187,26 @@
       // Load and display user info
       displayUserInfo(user);
 
+      // Fetch customer phone from first order
+      let customerPhone = 'N/A';
+      try {
+        const ordersRes = await fetch('/api/orders/my-orders', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        if (ordersRes.ok) {
+          const ordersJson = await ordersRes.json();
+          const orders = ordersJson.data || [];
+          if (orders.length > 0) {
+            customerPhone = orders[0].customerPhone || 'N/A';
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch customer phone:', err);
+      }
+
+      // Re-display with phone
+      displayUserInfo(user, customerPhone);
+
       // Load and display orders
       loadOrders(token);
 
@@ -194,7 +214,7 @@
       updateCartBadge();
     });
 
-    function displayUserInfo(user) {
+    function displayUserInfo(user, customerPhone) {
       const userInfoEl = document.getElementById('userInfo');
       userInfoEl.innerHTML = `
         <div>
@@ -210,7 +230,7 @@
         <div>
           <div class="mb-4">
             <label class="block text-sm text-gray-600">Phone</label>
-            <div class="text-lg font-semibold text-brand-gray">${user.phone || 'N/A'}</div>
+            <div class="text-lg font-semibold text-brand-gray">${customerPhone || 'N/A'}</div>
           </div>
           <div class="mb-4">
             <label class="block text-sm text-gray-600">Joined</label>
@@ -272,7 +292,15 @@
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-gray-600">Status</p>
-                <p class="font-semibold text-brand-gray">${order.status}</p>
+                <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+                  order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
+                  order.status === 'Shipped' ? 'bg-purple-100 text-purple-800' :
+                  order.status === 'Confirmed' ? 'bg-blue-100 text-blue-800' :
+                  order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
+                  'bg-yellow-100 text-yellow-800'
+                }">
+                  ${order.status}
+                </span>
               </div>
               <div>
                 <p class="text-sm text-gray-600">Payment</p>
@@ -280,13 +308,7 @@
               </div>
               <div>
                 <p class="text-sm text-gray-600">Payment Status</p>
-                <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-                  order.paymentStatus === 'Completed' ? 'bg-green-100 text-green-800' :
-                  order.paymentStatus === 'Failed' ? 'bg-red-100 text-red-800' :
-                  'bg-yellow-100 text-yellow-800'
-                }">
-                  ${order.paymentStatus}
-                </span>
+                <p class="font-semibold text-brand-gray">${order.paymentStatus}</p>
               </div>
             </div>
           </div>

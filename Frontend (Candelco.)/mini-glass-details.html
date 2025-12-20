@@ -158,34 +158,8 @@
     <!-- Product Details -->
     <div>
 
-      <!-- add a hidden input somewhere in the page -->
-<input type="hidden" id="product-id" value="">
-
-<script>
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (!id) return;
-
-    // Wait for products to load (products-api.js provides getProducts)
-    getProducts().then(products => {
-      const product = products.find(p => String(p.id) === String(id));
-      if (!product) return; // show not found if desired
-
-      // Fill page with product data...
-      // e.g. document.getElementById('product-title').textContent = product.displayName;
-
-      // Expose id for add-to-cart logic
-      document.getElementById('product-id').value = product.id;
-
-      // Optionally set a data attribute on a wrapper element:
-      // document.getElementById('product-wrapper').dataset.id = product.id;
-    });
-  })();
-</script>
-
-      <h1 class="text-4xl font-serif font-bold mb-4 text-brand-brown">Mini Glass Candles</h1>
-      <div class="text-lg mb-2 font-semibold"><p class="text-2xl font-bold text-brand-brown" data-name="Mini Glass Jar Candles" data-price="PKR 1,000" data-product-id="">PKR 1,000</p></div>
+      <h1 id="product-title" class="text-4xl font-serif font-bold mb-4 text-brand-brown">Loading...</h1>
+      <div class="text-lg mb-2 font-semibold"><p id="product-price" class="text-2xl font-bold text-brand-brown" data-name="" data-price="" data-product-id="">Loading...</p></div>
       <div class="mb-4 text-sm text-brand-light-gray">Shipping calculated at checkout.</div>
       <div class="mb-4">
         <p class="mb-2 font-semibold">Choose Scent:</p>
@@ -364,6 +338,43 @@
       let productIdValue = '';
 
       async function setProductId() {
+        // First: Check localStorage for product data passed from all-products.html
+        const storedProduct = localStorage.getItem('currentProduct');
+        if (storedProduct) {
+          try {
+            const product = JSON.parse(storedProduct);
+            if (product && product._id) {
+              productIdValue = product._id;
+              
+              // Update page content with stored product data
+              const titleElement = document.getElementById('product-title');
+              if (titleElement) titleElement.textContent = product.displayName || product.name;
+              
+              const priceElement = document.getElementById('product-price');
+              if (priceElement) {
+                priceElement.textContent = `PKR ${product.price}`;
+                priceElement.setAttribute('data-name', product.displayName || product.name);
+                priceElement.setAttribute('data-price', `PKR ${product.price}`);
+                priceElement.setAttribute('data-product-id', product._id);
+              }
+              
+              // Update product image if available
+              const imgElement = document.getElementById('product-image');
+              if (imgElement && product.image) {
+                imgElement.src = product.image;
+                imgElement.alt = product.displayName || product.name;
+              }
+              
+              // Clear localStorage after use
+              localStorage.removeItem('currentProduct');
+              return productIdValue;
+            }
+          } catch (err) {
+            console.error('Could not parse stored product:', err);
+          }
+        }
+
+        // Fallback: Check if already set via DOM attribute
         const existing = document.querySelector('[data-product-id]')?.getAttribute('data-product-id');
         if (existing) {
           productIdValue = existing;

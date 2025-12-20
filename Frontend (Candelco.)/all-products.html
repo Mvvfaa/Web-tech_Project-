@@ -202,16 +202,49 @@
 
 <script>
   let allProducts = [];
+  let categoryIdMap = {}; // Will store categoryId -> slug mapping
 
-  // Load products from JSON
-  fetch('assets/data/products.json')
+  // Load products from API (MongoDB)
+  fetch(window.API_BASE + '/products')
     .then(response => response.json())
     .then(data => {
-      allProducts = data.products;
+      // API returns { success: true, data: [...] }
+      allProducts = data.data || data.products || [];
+      
+      // Build categoryId to slug map from the products
+      allProducts.forEach(product => {
+        if (product.category && product.category._id) {
+          const categoryId = product.category._id;
+          const categoryName = product.category.name.toLowerCase();
+          
+          // Determine slug based on category name
+          let slug = 'default';
+          if (categoryName.includes('tin')) slug = 'tin';
+          else if (categoryName.includes('glass')) slug = 'glass';
+          else if (categoryName.includes('frame')) slug = 'frame';
+          else if (categoryName.includes('amber')) slug = 'amber';
+          else if (categoryName.includes('ramadan')) slug = 'ramadan';
+          else if (categoryName.includes('valentine')) slug = 'valentine';
+          
+          categoryIdMap[categoryId] = slug;
+        }
+      });
+      
       renderProducts(allProducts);
       applyURLFilter();
     })
-    .catch(error => console.error('Error loading products:', error));
+    .catch(error => {
+      console.error('Error loading products:', error);
+      // Fallback to static JSON if API fails
+      fetch('assets/data/products.json')
+        .then(response => response.json())
+        .then(data => {
+          allProducts = data.products;
+          renderProducts(allProducts);
+          applyURLFilter();
+        })
+        .catch(err => console.error('Fallback also failed:', err));
+    });
 
   function renderProducts(products) {
     const productsGrid = document.getElementById('productsGrid');
@@ -225,21 +258,30 @@
     products.forEach((product, index) => {
       const card = document.createElement('div');
       card.className = 'product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-105 transition duration-500';
-      card.setAttribute('data-id', product.id);
-      card.setAttribute('data-category', product.category);
+      const productId = product._id || product.id;
+      
+      // Use categoryId mapping instead of string matching
+      let categorySlug = 'default';
+      if (product.category && product.category._id) {
+        const categoryId = product.category._id;
+        categorySlug = categoryIdMap[categoryId] || 'default';
+      }
+      
+      card.setAttribute('data-id', productId);
+      card.setAttribute('data-category', categorySlug);
       card.setAttribute('data-name', product.name);
-      card.setAttribute('data-price', product.price.replace(',', ''));
-      card.setAttribute('data-theme', product.theme);
+      card.setAttribute('data-price', product.price.toString().replace(',', ''));
+      card.setAttribute('data-theme', product.theme || 'Classic');
       card.setAttribute('data-aos', 'zoom-in');
       card.setAttribute('data-aos-delay', (index * 100) % 500);
 
       card.innerHTML = `
         <img src="${product.image}" class="w-full h-64 object-cover">
         <div class="p-6 text-center">
-          <h3 class="text-xl font-bold">${product.displayName}</h3>
+          <h3 class="text-xl font-bold">${product.displayName || product.name}</h3>
           <p class="text-brand-brown font-semibold mb-2">PKR ${product.price}</p>
           <p class="text-brand-light-gray mb-4">${product.description}</p>
-          <button onclick="goToDetails('${product.detailsPage}?img=${product.image.split('/')[1]}&theme=${product.theme}')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
+          <button onclick="navigateToProduct('${productId}', '${categorySlug}', '${product.image}', '${product.theme || 'Classic'}')" class="px-6 py-2 bg-brand-sage text-white font-bold rounded-full hover:bg-brand-sage-dark transition">
             View Details
           </button>
         </div>
@@ -258,23 +300,41 @@
     const selectedCategory = categoryFilter.value;
     const sortOption = sortSelect.value;
 
-    let filtered = allProducts.filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm) || product.displayName.toLowerCase().includes(searchTerm);
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
+    // Build query params
+    const params = new URLSearchParams();
+    if (searchTerm) params.append('search', searchTerm);
+    if (selectedCategory && selectedCategory !== 'all') params.append('category', selectedCategory);
+    if (sortOption) params.append('sort', sortOption);
 
-    if (sortOption === 'name-asc') {
-      filtered.sort((a, b) => a.displayName.localeCompare(b.displayName));
-    } else if (sortOption === 'name-desc') {
-      filtered.sort((a, b) => b.displayName.localeCompare(a.displayName));
-    } else if (sortOption === 'price-asc') {
-      filtered.sort((a, b) => parseInt(a.price.replace(',', '')) - parseInt(b.price.replace(',', '')));
-    } else if (sortOption === 'price-desc') {
-      filtered.sort((a, b) => parseInt(b.price.replace(',', '')) - parseInt(a.price.replace(',', '')));
-    }
+    // Fetch from backend
+    fetch(window.API_BASE + '/search/filter-sort?' + params.toString())
+      .then(response => response.json())
+      .then(data => {
+        const products = data.data || [];
+        renderProducts(products);
+      })
+      .catch(error => {
+        console.error('Error filtering products:', error);
+        // Fallback to client-side filtering
+        let filtered = allProducts.filter(product => {
+          const productName = (product.displayName || product.name || '').toLowerCase();
+          const matchesSearch = searchTerm === '' || productName.includes(searchTerm);
+          const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+          return matchesSearch && matchesCategory;
+        });
 
-    renderProducts(filtered);
+        if (sortOption === 'name-asc') {
+          filtered.sort((a, b) => (a.displayName || a.name).localeCompare(b.displayName || b.name));
+        } else if (sortOption === 'name-desc') {
+          filtered.sort((a, b) => (b.displayName || b.name).localeCompare(a.displayName || a.name));
+        } else if (sortOption === 'price-asc') {
+          filtered.sort((a, b) => parseInt(String(a.price).replace(',', '')) - parseInt(String(b.price).replace(',', '')));
+        } else if (sortOption === 'price-desc') {
+          filtered.sort((a, b) => parseInt(String(b.price).replace(',', '')) - parseInt(String(a.price).replace(',', '')));
+        }
+
+        renderProducts(filtered);
+      });
   }
 
   searchInput.addEventListener('input', filterAndSort);
@@ -428,6 +488,31 @@
 
     function goToDetails(url) {
       window.location.href = url;
+    }
+
+    function navigateToProduct(productId, category, image, theme) {
+      // Map categories to detail pages
+      const detailPageMap = {
+        'glass': 'glass-jar-details.html',
+        'tin': 'motivational-tin-details.html',
+        'amber': 'amber-jar-details.html',
+        'frame': 'mini-glass-details.html',
+        'ramadan': 'glass-jar-details.html',
+        'valentine': 'motivational-quote-details.html',
+        'default': 'glass-jar-details.html'
+      };
+
+      // Find the product data from allProducts array
+      const product = allProducts.find(p => (p._id || p.id) === productId);
+      
+      if (product) {
+        // Store the product data in localStorage so detail page can use it directly
+        localStorage.setItem('currentProduct', JSON.stringify(product));
+      }
+
+      const detailPage = detailPageMap[category] || detailPageMap['default'];
+      const imageFileName = image.split('/').pop() || 'default.jpg';
+      window.location.href = `${detailPage}?productId=${productId}&img=${imageFileName}&theme=${encodeURIComponent(theme)}`;
     }
 
     // Profile button redirection based on role

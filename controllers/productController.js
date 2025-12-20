@@ -58,7 +58,8 @@ exports.createProduct = async (req, res) => {
     normalizeNumericFields(req.body);
 
     if (req.file) {
-      const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+      // Store relative path instead of full URL for better portability
+      const imageUrl = `/uploads/${req.file.filename}`;
       req.body.image = imageUrl;
     }
 

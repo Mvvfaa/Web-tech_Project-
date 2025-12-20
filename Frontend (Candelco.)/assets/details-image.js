@@ -10,4 +10,13 @@
   const safeSrc = img.includes('/') ? img : ('images/' + img);
   imgEl.src = safeSrc;
   imgEl.alt = img.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+  
+  // Fallback: if image fails to load from /images, try /uploads
+  imgEl.onerror = function() {
+    if (!this.src.includes('/uploads/')) {
+      const filename = img.includes('/') ? img.split('/').pop() : img;
+      this.onerror = null; // Prevent infinite loop
+      this.src = 'uploads/' + filename;
+    }
+  };
 })();
