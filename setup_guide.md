@@ -32,6 +32,7 @@ JWT_EXPIRES=8h
 ```
 
 ADMIN_EMAIL=fa23-bse-127@cuilahore.edu.pk
+
 ADMIN_PASS=batman12
 
 ```
