@@ -31,6 +31,8 @@ JWT_EXPIRES=8h
 
 ```
 
+```
+
 ADMIN_EMAIL=fa23-bse-127@cuilahore.edu.pk
 
 ADMIN_PASS=batman12
@@ -38,7 +40,7 @@ ADMIN_PASS=batman12
 ```
 
 
----
+
 
 ## 4. Start the server
 ```bash
